@@ -1,0 +1,24 @@
+<pre class='metadata'>
+Title: Proposed Resolution to NB Comments on the Parallelism TS v2
+Shortname: 1111
+Revision: 0
+Status: D
+Audience: SG1, LEWG, LWG
+Group: WG21
+Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_proposed_resolution_to_nb_comments_on_the_parallelism_ts_v2/issues
+URL: http://wg21.link/D1111r0
+Editor: Bryce Adelstein Lelbach, NVIDIA, brycelelbach@gmail.com
+Editor: Matthias Kretz, m.kretz@gsi.de
+Date: 2018-06-04
+Markup Shorthands: markdown yes
+Toggle Diffs: yes
+No Abstract: yes
+</pre>
+
+<style>
+ins .highlight:not(.idl) { background: rgba(0, 136, 0, 0.2); }
+</style>
+
+All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
+2 of the C++ Parallelism Technical Specification.
+
