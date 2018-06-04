@@ -1,12 +1,12 @@
 <pre class='metadata'>
 Title: Proposed Resolution to NB Comments on the Parallelism TS v2
-Shortname: 1111
+Shortname: D1111
 Revision: 0
 Status: D
 Audience: SG1, LEWG, LWG
 Group: WG21
 Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_proposed_resolution_to_nb_comments_on_the_parallelism_ts_v2/issues
-URL: http://wg21.link/D1111r0
+URL: http://wg21.link/D1111R0
 Editor: Bryce Adelstein Lelbach, NVIDIA, brycelelbach@gmail.com
 Editor: Matthias Kretz, m.kretz@gsi.de
 Date: 2018-06-04
@@ -16,7 +16,10 @@ No Abstract: yes
 </pre>
 
 <style>
-ins .highlight:not(.idl) { background: rgba(0, 136, 0, 0.2); }
+pre.highlight:not(.idl) { background: #ffffff; }
+code.highlight:not(.idl) { background: #ffffff; }
+ins, ins span { background: rgb(200, 250, 200); }
+del, del span { background: rgb(250, 200, 200); }
 </style>
 
 All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
@@ -32,8 +35,97 @@ Modifications to the accumulator by the application of element access functions 
 partial results.
 At some point before the algorithm returns, the partial results are combined, two at a time, using the reduction object's combiner operation until a single value remains, which is then assigned back to the live-out object.
 [ *Note:*
-<del>i</del><ins>I</ins>n order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
+<del>in</del><ins>In</ins> order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
 For example if the combiner is `plus<T>`, incrementing the accumulator would be consistent with the combiner but doubling it or assigning to it would not.
 — *end note* ]
+</blockquote>
+
+CH 13 {#ch13}
+=============
+
+NOTE: We should put other simd class synopsis updates in this diff.
+
+Modify [**parallel.simd.overview**] as follows:
+
+<blockquote>
+<pre><code>
+template&lt;class T, class Abi&gt; class simd {
+public:
+  using value_type = T;
+  using reference = <i>see below</i>;
+  using mask_type = simd_mask&lt;T, Abi&gt;<ins>;</ins>
+  using abi_type = Abi;
+
+  static constexpr size_t size() noexcept;
+
+  simd() = default;
+
+  <i>// implicit conversion constructor</i>
+  template&lt;class U&gt; simd(const simd&lt;U, simd_abi::fixed_size&lt;size()&gt;&gt;&amp;);
+
+  <i>// implicit broadcast constructor (see below for constraints)</i>
+  template&lt;class U&gt; simd(U&amp;&amp; value);
+
+  <i>// generator constructor (see below for constraints)</i>
+  template&lt;class G&gt; explicit simd(G&amp;&amp; gen);
+
+  <i>// load constructor</i>
+  template&lt;class U, class Flags&gt; simd(const U* mem, Flags f);
+
+  <i>// 9.3.4, Copy functions</i>
+  template&lt;class U, class Flags&gt; copy_from(const U* mem, Flags f);
+  template&lt;class U, class Flags&gt; copy_to(U* mem, Flags f);
+
+  <i>// 9.3.5, Subscript operators</i>
+  reference operator[](size_t);
+  value_type operator[](size_t) const;
+
+  <i>// 9.3.6, Unary operators</i>
+  simd&amp; operator++();
+  simd operator++(int);
+  simd&amp; operator--();
+  simd operator--(int);
+  mask_type operator!() const;
+  simd operator~() const;
+  simd operator+() const;
+  simd operator-() const;
+
+  <i>// 9.4.1, Binary operators</i>
+  friend simd operator+(const simd&amp;, const simd&amp;);
+  friend simd operator-(const simd&amp;, const simd&amp;);
+  friend simd operator*(const simd&amp;, const simd&amp;);
+  friend simd operator/(const simd&amp;, const simd&amp;);
+  friend simd operator%(const simd&amp;, const simd&amp;);
+  friend simd operator&amp;(const simd&amp;, const simd&amp;);
+  friend simd operator|(const simd&amp;, const simd&amp;);
+  friend simd operator^(const simd&amp;, const simd&amp;);
+  friend simd operator&lt;&lt;(const simd&amp;, const simd&amp;);
+  friend simd operator&gt;&gt;(const simd&amp;, const simd&amp;);
+  friend simd operator&lt;&lt;(const simd&amp;, int);
+  friend simd operator&gt;&gt;(const simd&amp;, int);
+
+  <i>// 9.4.2, Compound assignment</i>
+  friend simd&amp; operator+=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator-=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator*=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator/=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator%=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator&amp;=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator|=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator^=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator&lt;&lt;=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator&gt;&gt;=(simd&amp;, const simd&amp;);
+  friend simd&amp; operator&lt;&lt;=(simd&amp;, int);
+  friend simd&amp; operator&gt;&gt;=(simd&amp;, int);
+
+  <i>// 9.4.3, Compare operators</i>
+  friend mask_type operator==(const simd&amp;, const simd&amp;);
+  friend mask_type operator!=(const simd&amp;, const simd&amp;);
+  friend mask_type operator&gt;=(const simd&amp;, const simd&amp;);
+  friend mask_type operator&lt;=(const simd&amp;, const simd&amp;);
+  friend mask_type operator&gt;(const simd&amp;, const simd&amp;);
+  friend mask_type operator&lt;(const simd&amp;, const simd&amp;);
+};
+</code></pre>
 </blockquote>
 
