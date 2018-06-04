@@ -22,3 +22,18 @@ ins .highlight:not(.idl) { background: rgba(0, 136, 0, 0.2); }
 All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
 2 of the C++ Parallelism Technical Specification.
 
+CA 4 {#ca4}
+===========
+
+Modify [**parallel.alg.reductions**] p3 as follows:
+
+<blockquote>
+Modifications to the accumulator by the application of element access functions accrue as
+partial results.
+At some point before the algorithm returns, the partial results are combined, two at a time, using the reduction object's combiner operation until a single value remains, which is then assigned back to the live-out object.
+[ *Note:*
+<del>i</del><ins>I</ins>n order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
+For example if the combiner is `plus<T>`, incrementing the accumulator would be consistent with the combiner but doubling it or assigning to it would not.
+— *end note* ]
+</blockquote>
+
