@@ -16,10 +16,10 @@ No Abstract: yes
 </pre>
 
 <style>
-pre.highlight:not(.idl) { background: #ffffff; }
-code.highlight:not(.idl) { background: #ffffff; }
-ins, ins span { background: rgb(200, 250, 200); }
-del, del span { background: rgb(250, 200, 200); }
+pre.highlight:not(.idl), pre.highlight:not(.idl) * { background-color: transparent; }
+code.highlight:not(.idl), code.highlight:not(.idl) * { background-color: transparent; }
+ins, ins * { background: rgb(200, 250, 200); }
+del, del * { background: rgb(250, 200, 200); }
 </style>
 
 All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
@@ -96,6 +96,54 @@ This constructor shall not participate in overload resolution unless <code>simd(
 
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
 "for all <ins>selected elements <code>i</code></ins>".
+
+DE 1 {#us1}
+===========
+
+Modify the `array`-returning declarations of `split` in [**parallel.simd.synopsis**]:
+
+<blockquote>
+<pre><code>
+template&lt;size_t... Sizes, class T, class Abi&gt;
+  tuple&lt;simd&lt;T, simd_abi::deduce_t&lt;T, Sizes&gt;&gt;...&gt;
+    split(const simd&lt;T, Abi&gt;&amp;);
+template&lt;size_t... Sizes, class T, class Abi&gt;
+  tuple&lt;simd_mask&lt;T, simd_mask_abi::deduce_t&lt;T, Sizes&gt;&gt;...&gt;
+    split(const simd_mask&lt;T, Abi&gt;&amp;);
+template&lt;class V, class Abi&gt;
+  array&lt;V, simd_size_v&lt;typename V::value_type, Abi&gt; / V::size()&gt;
+    split(const simd&lt;typename V::value_type, Abi&gt;&amp;);
+template&lt;class V, class Abi&gt;
+  array&lt;V, simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt; / V::size()&gt;
+    split(const simd_mask&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;&amp;);
+</code></pre>
+</blockquote>
+
+Modify the `array`-returning definitions of `split` in [**parallel.simd.casts**]:
+
+<blockquote>
+<pre><code>
+template&lt;class V, class Abi&gt;
+  array&lt;V, simd_size_v&lt;typename V::value_type, Abi&gt; / V::size()&gt;
+    split(const simd&lt;typename V::value_type, Abi&gt;&amp; x);
+template&lt;class V, class Abi&gt;
+  array&lt;V, simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt; / V::size()&gt;
+    split(const simd_mask&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;&amp; x);
+</code></pre>
+
+*Returns:* An array of data-parallel objects with the `i`-th `simd`/`simd_mask` element of the `j`-th
+element initialized to the value of the element in `x` with index `i + j * V::size()`.
+
+*Remarks:* These functions shall not participate in overload resolution unless
+- <code>simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;</code> is an integral multiple of `V::size()`, and
+- for the overload with a `simd` parameter `is_simd_v<V>` is `true`<del>, for</del> <ins>or</ins> the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.
+
+*Remarks:* These functions shall not participate in overload resolution unless <ins>either</ins>
+- <del>`simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, and</del>
+- <del>for the overload with a `simd` parameter `is_simd_v<V>` is `true`, for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.</del>
+- <ins>`is_simd_v<V>` is `true` and `simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, or</ins>
+- <ins>`is_simd_mask_v<V>` is `true` and `simd_size_v<typename V::simd_type::value_type, Abi>` is an integral multiple of `V::size()`.</ins>
+</blockquote>
 
 US 1, 2 {#us1}
 ===========
@@ -387,8 +435,33 @@ public:
 </code></pre>
 </blockquote>
 
-CH 15 {#ch15}
+US 15, CH 14, 15 {#us15ch14-15}
 =============
+
+Modify the definition of `simd_cast` in [**parallel.simd.casts**] as follows:
+
+<blockquote>
+<pre><code>
+template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const simd&lt;U, Abi&gt;&amp; x);
+</code></pre>
+
+Let `To` identify `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
+
+*Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
+
+*Throws:* Nothing.
+
+*Remarks:* The function shall not participate in overload resolution unless
+- every possible value of type `U` can be represented with type `To`, and
+- either
+    - `is_simd_v<T>` is `false`, or
+    - `T::size() == simd<U, Abi>::size()` is `true`.
+
+The return type is
+- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del>
+- `simd<T, Abi>` <ins>if</ins> <del>is `U` is `T`<del>, otherwise</del>
+- <ins>Otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
+</blockquote>
 
 Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as follows:
 
@@ -399,17 +472,17 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(co
 
 Let `To` identify `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
-*Returns:* A simd object with the i-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
 *Remarks:* The function shall not participate in overload resolution unless either
-— `is_simd_v<T>` is `false`, or
-— `T::size() == simd<U, Abi>::size()` is `true`.
+- `is_simd_v<T>` is `false`, or
+- `T::size() == simd<U, Abi>::size()` is `true`.
 
 The return type is
-— T if `is_simd_v<T>` is `true`, otherwise
-— `simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`</ins>, otherwise
-— `simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del>
+- `simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`</ins>
+- <ins>Otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
 </blockquote>
 
