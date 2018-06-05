@@ -116,7 +116,7 @@ friend simd operator<<(const simd& lhs, const simd& rhs);
 friend simd operator>>(const simd& lhs, const simd& rhs);
 </xmp>
 
-*Returns:* A `simd` object initialized with the results <del>of the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
+*Returns:* A `simd` object initialized with the results of <del>the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
 
 *Throws:* Nothing.
 
@@ -127,20 +127,20 @@ indicated operator can be applied to objects of type value_type .
 Modify [**parallel.simd.cassign**] as follows:
 
 <blockquote>
-<xmp>
-friend simd& operator+=(simd& lhs, const simd& rhs);
-friend simd& operator-=(simd& lhs, const simd& rhs);
-friend simd& operator*=(simd& lhs, const simd& rhs);
-friend simd& operator/=(simd& lhs, const simd& rhs);
-friend simd& operator%=(simd& lhs, const simd& rhs);
-friend simd& operator&=(simd& lhs, const simd& rhs);
-friend simd& operator|=(simd& lhs, const simd& rhs);
-friend simd& operator^=(simd& lhs, const simd& rhs);
-friend simd& operator<<=(simd& lhs, const simd& rhs);
-friend simd& operator>>=(simd& lhs, const simd& rhs);
-friend simd& operator<<=(simd& lhs, int n);
-friend simd& operator>>=(simd& lhs, int n);
-</xmp>
+<pre><code>
+friend simd&amp; operator+=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator-=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator*=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator/=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator%=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator&amp;=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator|=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator^=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator&lt;&lt;=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, const simd&amp; rhs);
+friend simd&amp; operator&lt;&lt;=(simd&amp; lhs, int <del>n</del><ins>rhs</ins>);
+friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, int <del>n</del><ins>rhs</ins>);
+</code></pre>
 
 *Effects:* These operators <del>perform the indicated binary element-wise operation.</del> <ins>apply the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
 
@@ -163,7 +163,7 @@ friend mask_type operator&amp;gt;(const simd&amp; <ins>lhs</ins>, const simd&amp
 friend mask_type operator&amp;lt;(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
 </pre></code>
 
-*Returns:* A `simd_mask` object initialized with the results of the <del>element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
+*Returns:* A `simd_mask` object initialized with the results of <del>the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
 
 *Throws:* Nothing.
 </blockquote>
@@ -179,7 +179,7 @@ friend simd_mask operator| (const simd_mask&amp; <ins>lhs</ins>, const simd_mask
 friend simd_mask operator^ (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
 </pre></code>
 
-*Returns:* A simd_mask object initialized with the results of the element-wise appliation of the indicated operator.
+*Returns:* A `simd_mask` object initialized with the results of the element-wise appliation of the indicated operator.
 </blockquote>
 
 Modify [**parallel.simd.mask.cassign**] as follows:
