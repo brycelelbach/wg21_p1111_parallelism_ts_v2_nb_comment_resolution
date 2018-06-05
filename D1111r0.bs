@@ -40,6 +40,59 @@ For example if the combiner is `plus<T>`, incrementing the accumulator would be 
 — *end note* ]
 </blockquote>
 
+CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
+==============================
+
+<ul>
+<li>Replace all occurences of "&#8714;" with "&#x2208;".</li>
+<li>Replace all occurences of <del>&#8469;<sub>0</sub></del> with <ins>&#8469;</ins>.</li>
+<li>Change the font of all occurences of "<del><code>[0, size())</code></del>" to "<ins>[0, <code>size()</code>)<ins>".</li>
+<li>Replace all occurences of "<del>-th</del>" to "<ins><sup>th</sup></ins>".</li>
+<li>Use math font for variables that are only used in prose. Use code font for variables that are used in code at least once.</li>
+</ul>
+
+<!--
+Modify [**parallel.simd.whereexpr**] p5 as follows:
+<blockquote>
+The <em>selected indices</em> signify the integers <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }.</del>
+<ins><em>i</em> &#x2208; {<em>j</em> &#x2208; &#8469; &#x2223; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[j]</code> }.</ins>
+The <em>selected elements</em> signify the elements <code>data[i]</code> for all selected indices <code>i</code>.
+</blockquote>
+-->
+
+Modify [**parallel.simd.whereexpr**] p12 as follows:
+<blockquote>
+If the template parameter <code>Flags</code> is <code>vector_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>memory_alignment_v&lt;T, U&gt;</code>.
+If the template parameter <code>Flags</code> is <code>overaligned_tag&lt;N&gt;</code>, <code>mem</code> shall point to storage aligned by <code>N</code>.
+If the template parameter <code>Flags</code> is <code>element_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>alignof(U)</code>.
+If <code>M</code> is not <code>bool</code>, the largest <del><code>i</code> &#8714; <code>[0, M::size())</code> where <code>mask[i]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
+</blockquote>
+
+<!--
+Modify [**parallel.simd.ctor**] p6 as follows:
+<blockquote>
+Constructs an object where the <del><em>i</em>-th</del><ins><code>i</code><sup>th</sup></ins>
+element equals <code>static_cast&lt;T&gt;(x[i])</code> for all <code>i</code>
+<del>&#8714; <code>[0, size())</code></del><ins>&#x2208; [0, <code>size()</code>)</ins>.
+</blockquote>
+
+Modify [**parallel.simd.ctor**] p9 as follows:
+<blockquote>
+Constructs an object where the <del><em>i</em>-th</del><ins><code>i</code><sup>th</sup></ins> element is initialized to <code>gen(integral_constant&lt;size_t, i&gt;())</code>.
+</blockquote>
+
+Modify [**parallel.simd.ctor**] p10 as follows:
+<blockquote>
+This constructor shall not participate in overload resolution unless <code>simd(gen(integral_constant&lt;size_t, i&gt;()))</code> is well-formed for all <code>i</code>
+<del>&#8714; <code>[0, size())</code></del>
+<ins>&#x2208; [0, <code>size()</code>)<ins>.
+</blockquote>
+-->
+
+In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
+"for all <ins>selected elements <code>i</code></ins>".
+
+
 CH 13 {#ch13}
 =============
 
