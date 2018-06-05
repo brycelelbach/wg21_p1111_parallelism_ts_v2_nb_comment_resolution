@@ -100,7 +100,7 @@ In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>
 US 1, 2 {#us1}
 ===========
 
-Modify the destination [**parallel.simd.binary**] as follows:
+Modify [**parallel.simd.binary**] as follows:
 
 <blockquote>
 <xmp>
@@ -124,7 +124,7 @@ friend simd operator>>(const simd& lhs, const simd& rhs);
 indicated operator can be applied to objects of type value_type .
 </blockquote>
 
-Modify the destination [**parallel.simd.cassign**] as follows:
+Modify [**parallel.simd.cassign**] as follows:
 
 <blockquote>
 <xmp>
@@ -151,7 +151,7 @@ friend simd& operator>>=(simd& lhs, int n);
 *Remarks:* These operators shall not participate in overload resolution unless the indicated operator can be applied to objects of type `value_type`.
 </blockquote>
 
-Modify the destination [**parallel.simd.comparison**] as follows:
+Modify [**parallel.simd.comparison**] as follows:
 
 <blockquote>
 <code><pre>
@@ -168,7 +168,7 @@ friend mask_type operator&amp;lt;(const simd&amp; <ins>lhs</ins>, const simd&amp
 *Throws:* Nothing.
 </blockquote>
 
-Modify the destination [**parallel.simd.mask.binary**] as follows:
+Modify [**parallel.simd.mask.binary**] as follows:
 
 <blockquote>
 <code><pre>
@@ -182,7 +182,7 @@ friend simd_mask operator^ (const simd_mask&amp; <ins>lhs</ins>, const simd_mask
 *Returns:* A simd_mask object initialized with the results of the element-wise appliation of the indicated operator.
 </blockquote>
 
-Modify the destination [**parallel.simd.mask.cassign**] as follows:
+Modify [**parallel.simd.mask.cassign**] as follows:
 
 <blockquote>
 <xmp>
@@ -196,7 +196,7 @@ friend simd_mask& operator^=(simd_mask& lhs, const simd_mask& rhs) noexcept;
 *Returns:* `lhs`.
 </blockquote>
 
-Modify the destination [**parallel.simd.mask.comparison**] as follows:
+Modify [**parallel.simd.mask.comparison**] as follows:
 
 <blockquote>
 <code><pre>
