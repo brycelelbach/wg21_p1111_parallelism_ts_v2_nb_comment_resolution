@@ -25,10 +25,15 @@ del, del span { background: rgb(250, 200, 200); }
 All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
 2 of the C++ Parallelism Technical Specification.
 
+CA 3 {#ca3}
+===========
+
+Remove the column titled "Doc. No." from [**parallel.general.features**] Table 1.
+
 CA 4 {#ca4}
 ===========
 
-Modify [**parallel.alg.reductions**] p3 as follows:
+Modify [**parallel.alg.reductions**] Paragraph 3 as follows:
 
 <blockquote>
 Modifications to the accumulator by the application of element access functions accrue as
@@ -92,6 +97,88 @@ This constructor shall not participate in overload resolution unless <code>simd(
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
 "for all <ins>selected elements <code>i</code></ins>".
 
+US 1 {#us1}
+===========
+
+Modify the destination [**parallel.simd.binary**] as follows:
+
+<blockquote>
+<xmp>
+friend simd operator+(const simd& lhs, const simd& rhs);
+friend simd operator-(const simd& lhs, const simd& rhs);
+friend simd operator*(const simd& lhs, const simd& rhs);
+friend simd operator/(const simd& lhs, const simd& rhs);
+friend simd operator%(const simd& lhs, const simd& rhs);
+friend simd operator&(const simd& lhs, const simd& rhs);
+friend simd operator|(const simd& lhs, const simd& rhs);
+friend simd operator^(const simd& lhs, const simd& rhs);
+friend simd operator<<(const simd& lhs, const simd& rhs);
+friend simd operator>>(const simd& lhs, const simd& rhs);
+</xmp>
+
+*Returns:* A `simd` object initialized with the results <del>of the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
+
+*Throws:* Nothing.
+
+*Remarks:* Each of these operators shall not participate in overload resolution unless the
+indicated operator can be applied to objects of type value_type .
+</blockquote>
+
+Modify the destination [**parallel.simd.comparison**] as follows:
+
+<blockquote>
+<code><pre>
+friend mask_type operator==(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator!=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator&amp;gt;=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator&amp;lt;=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator&amp;gt;(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator&amp;lt;(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+</pre></code>
+
+*Returns:* A `simd_mask` object initialized with the results of the <del>element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
+
+*Throws:* Nothing.
+</blockquote>
+
+Modify the destination [**parallel.simd.mask.binary**] as follows:
+
+<blockquote>
+<code><pre>
+friend simd_mask operator&amp;&amp;(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator||(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator&amp; (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator| (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator^ (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+</pre></code>
+
+*Returns:* A simd_mask object initialized with the results of the element-wise appliation of the indicated operator.
+</blockquote>
+
+Modify the destination [**parallel.simd.mask.cassign**] as follows:
+
+<blockquote>
+<xmp>
+friend simd_mask& operator&=(simd_mask& lhs, const simd_mask& rhs) noexcept;
+friend simd_mask& operator|=(simd_mask& lhs, const simd_mask& rhs) noexcept;
+friend simd_mask& operator^=(simd_mask& lhs, const simd_mask& rhs) noexcept;
+</xmp>
+
+*Effects:* These operators <del>perform the indicated binary element-wise operation.</del> <ins>apply the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
+
+*Returns:* `lhs`.
+</blockquote>
+
+Modify the destination [**parallel.simd.mask.comparison**] as follows:
+
+<blockquote>
+<code><pre>
+friend simd_mask operator==(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator!=(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+</pre></code>
+
+*Returns:* An object initialized with the results of the <del>element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
+</blockquote>
 
 CH 13 {#ch13}
 =============
