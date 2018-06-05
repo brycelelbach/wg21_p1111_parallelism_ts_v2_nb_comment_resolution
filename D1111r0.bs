@@ -296,3 +296,29 @@ public:
 </code></pre>
 </blockquote>
 
+CH 15 {#ch15}
+=============
+
+Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as follows:
+
+<blockquote>
+<pre><code>
+template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(const simd&lt;U, Abi&gt;&amp; x);
+</code></pre>
+
+Let `To` identify `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
+
+*Returns:* A simd object with the i-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
+
+*Throws:* Nothing.
+
+*Remarks:* The function shall not participate in overload resolution unless either
+— `is_simd_v<T>` is `false`, or
+— `T::size() == simd<U, Abi>::size()` is `true`.
+
+The return type is
+— T if `is_simd_v<T>` is `true`, otherwise
+— `simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`</ins>, otherwise
+— `simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+</blockquote>
+
