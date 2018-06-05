@@ -97,7 +97,7 @@ This constructor shall not participate in overload resolution unless <code>simd(
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
 "for all <ins>selected elements <code>i</code></ins>".
 
-US 1 {#us1}
+US 1, 2 {#us1}
 ===========
 
 Modify the destination [**parallel.simd.binary**] as follows:
@@ -122,6 +122,33 @@ friend simd operator>>(const simd& lhs, const simd& rhs);
 
 *Remarks:* Each of these operators shall not participate in overload resolution unless the
 indicated operator can be applied to objects of type value_type .
+</blockquote>
+
+Modify the destination [**parallel.simd.cassign**] as follows:
+
+<blockquote>
+<xmp>
+friend simd& operator+=(simd& lhs, const simd& rhs);
+friend simd& operator-=(simd& lhs, const simd& rhs);
+friend simd& operator*=(simd& lhs, const simd& rhs);
+friend simd& operator/=(simd& lhs, const simd& rhs);
+friend simd& operator%=(simd& lhs, const simd& rhs);
+friend simd& operator&=(simd& lhs, const simd& rhs);
+friend simd& operator|=(simd& lhs, const simd& rhs);
+friend simd& operator^=(simd& lhs, const simd& rhs);
+friend simd& operator<<=(simd& lhs, const simd& rhs);
+friend simd& operator>>=(simd& lhs, const simd& rhs);
+friend simd& operator<<=(simd& lhs, int n);
+friend simd& operator>>=(simd& lhs, int n);
+</xmp>
+
+*Effects:* These operators <del>perform the indicated binary element-wise operation.</del> <ins>apply the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins> 
+
+*Returns:* `lhs`.
+
+*Throws:* Nothing.
+
+*Remarks:* These operators shall not participate in overload resolution unless the indicated operator can be applied to objects of type `value_type`.
 </blockquote>
 
 Modify the destination [**parallel.simd.comparison**] as follows:
