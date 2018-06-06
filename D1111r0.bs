@@ -22,37 +22,10 @@ ins, ins * { background: rgb(200, 250, 200); }
 del, del * { background: rgb(250, 200, 200); }
 </style>
 
-All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
-2 of the C++ Parallelism Technical Specification.
+NOTE: All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for
+version 2 of the C++ Parallelism Technical Specification.
 
-US 16 {#us16}
-=============
-
-Modify [**parallel.scope**] Paragraph 3 as follows:
-
-<blockquote>
-The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
-</blockquote>
-
-CA 3 {#ca3}
-===========
-
-Remove the column titled "Doc. No." from [**parallel.general.features**] Table 1.
-
-CA 4 {#ca4}
-===========
-
-Modify [**parallel.alg.reductions**] Paragraph 3 as follows:
-
-<blockquote>
-Modifications to the accumulator by the application of element access functions accrue as
-partial results.
-At some point before the algorithm returns, the partial results are combined, two at a time, using the reduction object's combiner operation until a single value remains, which is then assigned back to the live-out object.
-[ *Note:*
-<del>in</del><ins>In</ins> order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
-For example if the combiner is `plus<T>`, incrementing the accumulator would be consistent with the combiner but doubling it or assigning to it would not.
-— *end note* ]
-</blockquote>
+NOTE: The changes should be applied in order.
 
 CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 ==============================
@@ -105,6 +78,36 @@ This constructor shall not participate in overload resolution unless <code>simd(
 
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
 "for all <ins>selected elements <code>i</code></ins>".
+
+US 16 {#us16}
+=============
+
+Modify [**parallel.scope**] Paragraph 3 as follows:
+
+<blockquote>
+The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
+</blockquote>
+
+CA 3 {#ca3}
+===========
+
+Remove the column titled "Doc. No." from [**parallel.general.features**] Table 1.
+
+CA 4 {#ca4}
+===========
+
+Modify [**parallel.alg.reductions**] Paragraph 3 as follows:
+
+<blockquote>
+Modifications to the accumulator by the application of element access functions accrue as
+partial results.
+At some point before the algorithm returns, the partial results are combined, two at a time, using the reduction object's combiner operation until a single value remains, which is then assigned back to the live-out object.
+[ *Note:*
+<del>in</del><ins>In</ins> order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
+For example if the combiner is `plus<T>`, incrementing the accumulator would be consistent with the combiner but doubling it or assigning to it would not.
+— *end note* ]
+</blockquote>
+
 
 DE 1 {#us1}
 ===========
