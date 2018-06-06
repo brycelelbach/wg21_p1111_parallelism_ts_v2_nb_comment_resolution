@@ -517,7 +517,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const sim
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
 
-*Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the `i`<sup>th</sup> element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; [0, `size()`).
 
 *Throws:* Nothing.
 
@@ -528,9 +528,9 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
     - `T::size() == simd<U, Abi>::size()` is `true`.
 
 The return type is
-- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del>
-- `simd<T, Abi>` <ins>if</ins> <del>is `U` is `T`<del>, otherwise</del>
-- <ins>Otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
+- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` <del>is</del><ins>if</ins> `U` is `T`<del>, otherwise</del><ins>;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
 </blockquote>
 
 Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as follows:
@@ -542,7 +542,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(co
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
-*Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the `i`<sup>th</sup> element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; [0, `size()`).
 
 *Throws:* Nothing.
 
@@ -551,9 +551,9 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
 - `T::size() == simd<U, Abi>::size()` is `true`.
 
 The return type is
-- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del>
-- `simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`</ins>
-- <ins>Otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
 </blockquote>
 
 US 22 {#us22}
