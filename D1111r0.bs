@@ -18,8 +18,10 @@ No Abstract: yes
 <style>
 pre.highlight:not(.idl), pre.highlight:not(.idl) * { background-color: transparent; }
 code.highlight:not(.idl), code.highlight:not(.idl) * { background-color: transparent; }
-ins, ins * { background: rgb(200, 250, 200); }
-del, del * { background: rgb(250, 200, 200); }
+pre.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
+code.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
+ins, ins * { background-color: rgb(200, 250, 200); }
+del, del * { background-color: rgb(250, 200, 200); }
 </style>
 
 NOTE: All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for
@@ -108,7 +110,6 @@ For example if the combiner is `plus<T>`, incrementing the accumulator would be 
 — *end note* ]
 </blockquote>
 
-
 DE 1 {#us1}
 ===========
 
@@ -155,6 +156,44 @@ element initialized to the value of the element in `x` with index `i + j * V::si
 - <del>for the overload with a `simd` parameter `is_simd_v<V>` is `true`, for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.</del>
 - <ins>`is_simd_v<V>` is `true` and `simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, or</ins>
 - <ins>`is_simd_mask_v<V>` is `true` and `simd_size_v<typename V::simd_type::value_type, Abi>` is an integral multiple of `V::size()`.</ins>
+</blockquote>
+
+CH 2 {#ch2}
+================
+
+Modify the synopsis for namespace `simd_abi` in [**parallel.simd.abi**] as follows:
+
+<blockquote>
+<pre><code>
+namespace simd_abi {
+  struct scalar {};
+  template&lt;int N&gt; struct fixed_size {};
+  template&lt;class T&gt; inline constexpr in<ins>t</ins> max_fixed_size = <i>implementation-defined</i>;
+  template&lt;class T&gt; using compatible = <i>implementation-defined</i>;
+  template&lt;class T&gt; using native = <i>implementation-defined</i>;
+}
+</code></pre>
+</blockquote>
+
+CH 3, 4 {#ch3-4}
+================
+
+Modify [**parallel.simd.abi**] Paragraph 9 as follows:
+
+<blockquote>
+`compatible<T>` is an implementation-defined alias for an ABI tag.
+[ *Note:*
+The intent is to use the ABI tag producing the most efficient data-parallel execution for the element type `T` that ensures ABI compatibility between translation units on the target architecture.
+— *end note* ]
+
+[ *Example:*
+Consider a target architecture supporting the extended ABI tags `__simd128` and `__simd256`, where the `__simd256` type requires an optional ISA extension on said architecture. Also,
+the target architecture does not support long double with either ABI tag. The implementation therefore defines <ins>compatible&lt;T&gt; as an alias for</ins>
+- <del>`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</del>
+- <del>`compatible<long double>` as an alias for scalar.</del>
+- <ins>`scalar` if `T` is `long double`, and</ins>
+- <ins>`__simd128` otherwise.</ins>
+— *end example* ]
 </blockquote>
 
 US 1, 2 {#us1}
