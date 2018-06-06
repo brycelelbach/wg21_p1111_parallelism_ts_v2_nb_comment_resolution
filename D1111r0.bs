@@ -149,7 +149,7 @@ element initialized to the value of the element in `x` with index `i + j * V::si
 
 *Remarks:* These functions shall not participate in overload resolution unless
 - <code>simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;</code> is an integral multiple of `V::size()`, and
-- for the overload with a `simd` parameter `is_simd_v<V>` is `true`<del>, for</del> <ins>or</ins> the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.
+- for the overload with a `simd` parameter `is_simd_v<V>` is `true`, <ins>or </ins>for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.
 
 *Remarks:* These functions shall not participate in overload resolution unless <ins>either</ins>
 - <del>`simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, and</del>
