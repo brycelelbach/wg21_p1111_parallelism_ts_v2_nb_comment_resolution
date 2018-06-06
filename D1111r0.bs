@@ -400,8 +400,6 @@ After [**parallel.simd.mask.reductions**] p13 and p16 add:
 CH 13 {#ch13}
 =============
 
-NOTE: We should put other simd class synopsis updates in this diff.
-
 Modify [**parallel.simd.overview**] as follows:
 
 <blockquote>
@@ -413,6 +411,8 @@ public:
   using mask_type = simd_mask&lt;T, Abi&gt;<ins>;</ins>
   using abi_type = Abi;
 
+</code></pre>
+<!--
   static constexpr size_t size() noexcept;
 
   simd() = default;
@@ -483,11 +483,30 @@ public:
   friend mask_type operator&gt;(const simd&amp;, const simd&amp;);
   friend mask_type operator&lt;(const simd&amp;, const simd&amp;);
 };
-</code></pre>
+-->
 </blockquote>
 
-US 15, CH 14, 15 {#us15ch14-15}
+US 13, US 15, CH 14, CH 15 {#us13-15ch14-15}
 =============
+
+Modify the definition of `simd`'s `U&&` constructor in [**parallel.simd.ctor**] as follows:
+
+<blockquote>
+<xmp>
+template<class U> simd(U&&);
+</xmp>
+
+*Effects:* Constructs an object with each element initialized to the value of the argument
+after conversion to `value_type`.
+
+*Throws:* Any exception thrown while converting the argument to `value_type`.
+
+*Remarks:* Let `From` <ins>denote</ins><del>identify</del> the type `remove_cv_t<remove_reference_t<U>>`. This constructor shall not participate in overload resolution unless:
+- `From` is a vectorizable type and every possibly value of `From` can be represented with `value_type`, or
+- `From` is not an arithmetic type and is implicitly convertible to `value_type`, or
+- `From` is int, or
+- From is `unsigned int` and `value_type` is an unsigned integral type.
+</blockquote>
 
 Modify the definition of `simd_cast` in [**parallel.simd.casts**] as follows:
 
@@ -496,7 +515,7 @@ Modify the definition of `simd_cast` in [**parallel.simd.casts**] as follows:
 template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const simd&lt;U, Abi&gt;&amp; x);
 </code></pre>
 
-Let `To` identify `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
+Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
 
 *Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
 
@@ -521,7 +540,7 @@ Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as foll
 template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(const simd&lt;U, Abi&gt;&amp; x);
 </code></pre>
 
-Let `To` identify `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
+Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
 *Returns:* A `simd` object with the `i`-th element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; `[0, size())`.
 
