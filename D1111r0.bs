@@ -25,6 +25,15 @@ del, del * { background: rgb(250, 200, 200); }
 All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for version
 2 of the C++ Parallelism Technical Specification.
 
+US 16 {#us16}
+=============
+
+Modify [**parallel.scope**] Paragraph 3 as follows:
+
+<blockquote>
+The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
+</blockquote>
+
 CA 3 {#ca3}
 ===========
 
@@ -484,5 +493,17 @@ The return type is
 - `T` if `is_simd_v<T>` is `true`<del>, otherwise</del>
 - `simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`</ins>
 - <ins>Otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+</blockquote>
+
+US 22 {#us22}
+=============
+
+Modify [**parallel.simd.math**] Paragraph 2 as follows:
+
+<blockquote>
+Each function overload produced by the above rules applies the indicated <ins>mathematical</ins><del>`<cmath>`</del> function element-wise.
+<ins>[ *Note:*</ins>
+The results per element are not required to be bitwise equal to the application of the function which is overloaded for the element type.
+<ins>— *end note* ]</ins>
 </blockquote>
 
