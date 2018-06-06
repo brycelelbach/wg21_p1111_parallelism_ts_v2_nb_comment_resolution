@@ -110,6 +110,17 @@ For example if the combiner is `plus<T>`, incrementing the accumulator would be 
 — *end note* ]
 </blockquote>
 
+CA 9 {#ca9}
+===========
+
+Modify [**parallel.exceptions.synopsis**] p2 as follows:
+
+<blockquote>
+<del>The type <code>exception_list::iterator</code> fulfills the requirements of <code>ForwardIterator</code>.</del>
+<ins>`exception_list::iterator` is an iterator which meets the forward iterator requirements and has a value type of `exception_ptr`.</ins>
+</blockquote>
+<!-- This is a copy of the tzdb wording -->
+
 DE 1 {#us1}
 ===========
 
