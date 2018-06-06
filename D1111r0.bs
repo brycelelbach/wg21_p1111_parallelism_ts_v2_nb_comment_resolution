@@ -306,96 +306,127 @@ friend simd_mask operator!=(const simd_mask&amp; <ins>lhs</ins>, const simd_mask
 *Returns:* An object initialized with the results of the <del>element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
 </blockquote>
 
-CH 12 {#ch12}
-=============
+CH 11, CH 12 {#ch11-12}
+=======================
 
-After [**parallel.simd.whereexpr**] p17 and p20 add:
+Add `noexcept` to the following functions in [**parallel.simd**]:
+<ul>
+<li>`simd_cast`</li>
+<li>`static_simd_cast`</li>
+<li>`split`</li>
+<li>`concat`</li>
+<li>`reduce(const const_where_expression<M, V>& x, plus<> binary_op)`</li>
+<li>`reduce(const const_where_expression<M, V>& x, multiplies<> binary_op)`</li>
+<li>`reduce(const const_where_expression<M, V>& x, bit_and<> binary_op)`</li>
+<li>`reduce(const const_where_expression<M, V>& x, bit_or<> binary_op)`</li>
+<li>`reduce(const const_where_expression<M, V>& x, bit_xor<> binary_op)`</li>
+<li>`hmin`</li>
+<li>`hmax`</li>
+<li>all members of `const_where_expression` and `where_expression`</li>
+<li>all `simd` constructors, except `simd(const U* mem, Flags f)`</li>
+<li>all `simd` member and non-member operators, except `operator[]`</li>
+<li>all `reference` member functions</li>
+<li>`simd_mask()`</li>
+<!-- simd_mask has noexcept correct already -->
+</ul>
+
+Remove `noexcept` from  the following functions in [**parallel.simd**]:
+<ul>
+<li>`find_first_set` (only the non-simd overload)</li>
+<li>`find_last_set` (only the non-simd overload)</li>
+<li>`clamp` (only in the synopsis)</li>
+</ul>
+
+Remove the following paragraphs:
+<ul>
+<li> [**parallel.simd.whereexpr**] p10</li>
+<li> [**parallel.simd.ctor**] p3</li>
+<li> [**parallel.simd.unary**] p5, p9, p13, p17, p20, p23, p27, and p30 </li>
+<li> [**parallel.simd.binary**] p3 and p7</li>
+<li> [**parallel.simd.cassign**] p4</li>
+<li> [**parallel.simd.comparison**] p3</li>
+<li> [**parallel.simd.reductions**] p12, p15, p19, p23, p26, p29,  p32,  p35</li>
+<li> [**parallel.simd.casts**] p4 and p10</li>
+</ul>
+
+Modify [**parallel.simd.overview**] p2 as follows:
 <blockquote>
-<ins>
-  <em>Throws:</em>
-  Any exception thrown while converting <code>x</code> to <code>T</code>.
-</ins>
+Every specialization of <code>simd</code> shall be a complete type. The specialization <code>simd&lt;T, Abi&gt;</code> is supported if <code>T</code> is a vectorizable type and
+<ul>
+<li>
+<code>Abi</code> is <code>simd_abi::scalar</code>, or
+</li>
+
+<li>
+<code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> <del>is</del> constrained as defined in 9.2.1.
+</li>
+</ul>
+
+If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd&lt;T, Abi&gt;</code> is supported.
+[ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
+
+If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
+`is_nothrow_move_constructible_v<simd<T, Abi>>`, `is_nothrow_move_assignable_v<simd<T, Abi>>`, and `is_nothrow_default_constructible_v<simd<T, Abi>>`.</ins>
 </blockquote>
 
-After [**parallel.simd.whereexpr**] p23 and p27 add:
+Modify [**parallel.simd.mask.overview**] p2 as follows:
+<blockquote>
+Every specialization of <code>simd_mask</code> shall be a complete type. The specialization <code>simd_mask&lt;T, Abi&gt;</code> is supported if <code>T</code> is a vectorizable type and
+<ul>
+<li>
+<code>Abi</code> is <code>simd_abi::scalar</code>, or
+</li>
+<li>
+<code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> constrained as defined in (9.2.1).
+</li>
+</ul>
+
+If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd_mask&lt;T, Abi&gt;</code> is supported.
+[ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
+
+If <code>simd_mask&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
+`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`, `is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and `is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</ins>
+</blockquote>
+
+After [**parallel.simd.mask.ctor**] p8 add a new paragraph:
 <blockquote>
 <ins>
   <em>Throws:</em> Nothing.
 </ins>
 </blockquote>
 
-After [**parallel.simd.reference**] p6 and p10 add:
-<blockquote>
-<ins>
-  <em>Throws:</em>
-  Any exception thrown while converting <code>x</code> to <code>value_type</code>.
-</ins>
-</blockquote>
-
-After [**parallel.simd.reference**] p14 and p18 add:
+After [**parallel.simd.mask.copy**] p3 and p7 add a new paragraph:
 <blockquote>
 <ins>
   <em>Throws:</em> Nothing.
 </ins>
 </blockquote>
 
-After [**parallel.simd.ctor**] p6, p9, and p14 add:
+After [**parallel.simd.mask.reductions**] p13, p16, and p22 add a new paragraph:
 <blockquote>
 <ins>
   <em>Throws:</em> Nothing.
 </ins>
 </blockquote>
 
+
+<!--
+After [**parallel.simd.whereexpr**] p27 add:
+<blockquote>
+<ins>
+  <em>Throws:</em> Nothing.
+</ins>
+</blockquote>
+-->
+
+<!-- after the ctor is noexcept, the following is unnecessary:
 Modify [**parallel.simd.ctor**] p11 as follows:
 <blockquote>
 The calls to <code>gen</code> are unsequenced with respect to each other.
 Vectorization-unsafe standard library functions may not be invoked by <code>gen</code> ([algorithms.parallel.exec]).
 <ins>An invocation of <code>gen</code> shall not exit via an uncaught exception.</ins>
 </blockquote>
-
-After [**parallel.simd.copy**] p3 and p7 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
-After [**parallel.simd.casts**] p22, p25, and p28 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
-Modify [**parallel.simd.alg**] p7 as follows:
-<blockquote>
-<pre><code>
-template&lt;class T, class Abi&gt; simd&lt;T, Abi&gt;
-clamp(const simd&lt;T, Abi&gt;& v, const simd&lt;T, Abi&gt;& lo, const simd&lt;T, Abi&gt;& hi)<ins> noexcept</ins>;
-</code></pre>
-</blockquote>
-
-After [**parallel.simd.mask.ctor**] p8 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
-After [**parallel.simd.mask.copy**] p3 and p7 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
-After [**parallel.simd.mask.reductions**] p13 and p16 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
+-->
 
 CH 13 {#ch13}
 =============
