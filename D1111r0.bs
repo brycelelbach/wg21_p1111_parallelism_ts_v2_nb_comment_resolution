@@ -35,7 +35,7 @@ CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 <ul>
 <li>Replace all occurences of <del>&#8714;</del> with <ins>&#x2208;</ins>.</li>
 <li>Replace all occurences of <del>&#8469;<sub>0</sub></del> with <ins>&#8469;</ins>.</li>
-<li>Replace all occurences of <del>-th</del>" to "<ins><sup>th</sup></ins>.</li>
+<li>Replace all occurences of <del>-th</del> to <ins><sup>th</sup></ins>.</li>
 <li>Use math font for variables that are only used in prose. Use code font for variables that are used in code at least once.</li>
 </ul>
 
