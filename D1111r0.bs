@@ -599,7 +599,7 @@ The return type is
 - <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
 </blockquote>
 
-US 23 {#us23}
+US 22 {#us22}
 =============
 
 Modify [**parallel.simd.math**] Paragraph 2 as follows:
