@@ -54,6 +54,33 @@ If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#87
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <math>j</math> &lt; <code>M::size()</code> &#8896; <code>mask[</code><math>j</math><code>]</code> }</del>" with
 "for all <ins>selected indices <math>i</math></ins>".
 
+US 8 {#us8}
+===========
+
+Move paragraphs 4 and 5 of [**parallel.simd.overview**] into a new subsection after [**parallel.simd.overview**]:
+
+<ins>
+<blockquote>
+**9.3.2 simd width [parallel.simd.width]**
+
+`static constexpr size_t size() noexcept;`
+
+*Returns:* The width of `simd<T, Abi>`.
+</blockquote>
+</ins>
+
+Move paragraphs 4 and 5 of [**parallel.simd.mask.overview**] into a new subsection after [**parallel.simd.mask.overview**]:
+
+<ins>
+<blockquote>
+**9.5.2 simd_mask width [parallel.simd.mask.width]**
+
+`static constexpr size_t size() noexcept;`
+
+*Returns:* The width of `simd<T, Abi>`.
+</blockquote>
+</ins>
+
 US 14 {#us14}
 =============
 
