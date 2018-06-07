@@ -570,9 +570,23 @@ US 22 {#us22}
 Modify [**parallel.simd.math**] Paragraph 2 as follows:
 
 <blockquote>
-Each function overload produced by the above rules applies the indicated <ins>mathematical</ins><del>`<cmath>`</del> function element-wise.
-<ins>[ *Note:*</ins>
-The results per element are not required to be bitwise equal to the application of the function which is overloaded for the element type.
-<ins>— *end note* ]</ins>
+Each function overload produced by the above rules applies the indicated `<cmath>` function element-wise.
+<del>The results per element are not required to be bitwise</del><ins>For the mathematical functions, the results per element only need to be approximately</ins> equal to the application of the function which is overloaded for the element type.
 </blockquote>
 
+NOTE: Alternative:
+<blockquote>
+Each function overload produced by the above rules applies the indicated `<cmath>` function element-wise.
+<del>The results per element are not required to be bitwise</del><ins>For transcendental functions, the results per element only need to be approximately</ins> equal to the application of the function which is overloaded for the element type.
+</blockquote>
+
+
+<!--
+* Selected elements -> indices
+* US 2 needs rewording
+* Updating refs to IS
+* US 17 should follow the style of P...
+* US18 coll nodeduce type_identity
+* US23 fix the exact_bool see belows
+* CH15 "T is the same type as U"
+-->
