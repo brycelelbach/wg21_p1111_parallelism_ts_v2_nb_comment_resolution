@@ -130,6 +130,21 @@ Modify [**parallel.scope**] Paragraph 3 as follows:
 The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
 </blockquote>
 
+US 17 {#us17}
+=============
+
+Insert a new paragraph after [**parallel.general.namespaces**] p1:
+
+<ins><blockquote>
+Each header described in this technical specification shall import the contents of `std::experimental::parallelism_v2` into `std::experimental` as if by
+
+```
+    namespace std::experimental {
+      inline namespace parallelism_v2 {}
+    }
+```
+</blockquote></ins>
+
 US 18 {#us18}
 =============
 
