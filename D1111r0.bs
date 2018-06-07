@@ -166,7 +166,7 @@ The intent is to use the ABI tag producing the most efficient data-parallel exec
 
 [ *Example:*
 Consider a target architecture supporting the extended ABI tags `__simd128` and `__simd256`, where the `__simd256` type requires an optional ISA extension on said architecture. Also,
-the target architecture does not support long double with either ABI tag. The implementation therefore defines <ins>compatible&lt;T&gt; as an alias for</ins>
+the target architecture does not support long double with either ABI tag. The implementation therefore defines <ins>`compatible<T>` as an alias for:</ins>
 - <del>`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</del>
 - <del>`compatible<long double>` as an alias for scalar.</del>
 - <ins>`scalar` if `T` is `long double`, and</ins>
