@@ -78,7 +78,7 @@ This constructor shall not participate in overload resolution unless <code>simd(
 -->
 
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
-"for all <ins>selected elements <code>i</code></ins>".
+"for all <ins>selected indices <code>i</code></ins>".
 
 US 16 {#us16}
 =============
