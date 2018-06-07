@@ -54,6 +54,46 @@ If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#87
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <math>j</math> &lt; <code>M::size()</code> &#8896; <code>mask[</code><math>j</math><code>]</code> }</del>" with
 "for all <ins>selected indices <math>i</math></ins>".
 
+US 14 {#us14}
+=============
+
+Modify [**parallel.references**] Paragraph 2 as follows:
+
+<blockquote>
+ISO/IEC 14882:2017 is herein called the <dfn>C++ Standard</dfn>.
+<ins>References to clauses within the C++ Standard are written as "C++17 §3.2".</ins>
+The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <dfn>C++ Standard Library</dfn>.
+The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <dfn>C++ Standard Algorithms Library</dfn>.
+</blockquote>
+
+Replace all references to the C++ Standard with references in the style "C++17 §3.2":
+
+[**parallel.simd.ctor**] p7:
+
+<blockquote>
+if both U and value_type are integral, the integer conversion rank <del>[conv.rank]</del><ins>(C++17 §7.15)</ins> of value_type is greater than the integer conversion rank of U.
+</blockquote>
+
+[**parallel.simd.ctor**] p11:
+
+<blockquote>
+Vectorization-unsafe standard library functions may not be invoked by `gen` (<del>[algorithms.parallel.exec]</del><ins>C++17 §28.4.3</ins>).
+</blockquote>
+
+Modify [**parallel.simd.reductions**] Paragraph 4 as follows:
+
+<blockquote>
+```
+template<class T, class Abi, class BinaryOperation = plus<>>
+T reduce(const simd<T, Abi>& x, BinaryOperation binary_op = {});
+```
+
+*Requires:* `binary_op` shall be callable with two arguments of type `T` returning `T`, or callable
+with two arguments of type `simd<T, A1>` returning `simd<T, A1>` for every `A1` that is an ABI tag type.
+
+*Returns:* <code><em>GENERALIZED_SUM</em>(binary_op, x.data[<em>i</em>], ...)</code> for all <math>i</math> &#x2208; `[0, size())`<ins>&nbsp;(C++17 §29.2)</ins>.
+</blockquote>
+
 US 16 {#us16}
 =============
 
