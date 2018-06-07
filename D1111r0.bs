@@ -326,7 +326,7 @@ Remove `noexcept` from  the following functions in [**parallel.simd**]:
 <li>`clamp` (only in the synopsis)</li>
 </ul>
 
-Remove the following paragraphs:
+Remove the following "Throws" paragraphs:
 
 <ul>
 <li> [**parallel.simd.whereexpr**] p10</li>
