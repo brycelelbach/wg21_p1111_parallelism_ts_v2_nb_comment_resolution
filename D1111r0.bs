@@ -22,7 +22,8 @@ pre.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
 code.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
 ins, ins * { background-color: rgb(200, 250, 200); }
 del, del * { background-color: rgb(250, 200, 200); }
-math { font-style: italic; }
+math { font-style: italic; overflow-wrap: normal; }
+code { overflow-wrap: normal; }
 </style>
 
 NOTE: All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for
@@ -40,43 +41,13 @@ CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 <li>Replace all occurences of <code>i</code> and <code>j</code> (code font) with <math>i</math> and <math>j</math> (math font) respectively.
 </ul>
 
-<!--
-Modify [**parallel.simd.whereexpr**] p5 as follows:
-<blockquote>
-The <em>selected indices</em> signify the integers <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }.</del>
-<ins><em>i</em> &#x2208; {<em>j</em> &#x2208; &#8469; &#x2223; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[j]</code> }.</ins>
-The <em>selected elements</em> signify the elements <code>data[<math>i</math>]</code> for all selected indices <math>i</math>.
-</blockquote>
--->
-
 Modify [**parallel.simd.whereexpr**] p12 as follows:
 <blockquote>
 If the template parameter <code>Flags</code> is <code>vector_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>memory_alignment_v&lt;T, U&gt;</code>.
 If the template parameter <code>Flags</code> is <code>overaligned_tag&lt;N&gt;</code>, <code>mem</code> shall point to storage aligned by <code>N</code>.
 If the template parameter <code>Flags</code> is <code>element_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>alignof(U)</code>.
-If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#8714; <code>[0, M::size())</code> where <code>mask[<math>i</math>]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
+If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#8714; <code>[0, M::size())</code> where <code>mask[</code><math>i</math><code>]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
 </blockquote>
-
-<!--
-Modify [**parallel.simd.ctor**] p6 as follows:
-<blockquote>
-Constructs an object where the <del><em>i</em>-th</del><ins><code>i</code><sup>th</sup></ins>
-element equals <code>static_cast&lt;T&gt;(x[i])</code> for all <code>i</code>
-<del>&#8714; <code>[0, size())</code></del><ins>&#x2208; [0, <code>size()</code>)</ins>.
-</blockquote>
-
-Modify [**parallel.simd.ctor**] p9 as follows:
-<blockquote>
-Constructs an object where the <del><em>i</em>-th</del><ins><code>i</code><sup>th</sup></ins> element is initialized to <code>gen(integral_constant&lt;size_t, i&gt;())</code>.
-</blockquote>
-
-Modify [**parallel.simd.ctor**] p10 as follows:
-<blockquote>
-This constructor shall not participate in overload resolution unless <code>simd(gen(integral_constant&lt;size_t, i&gt;()))</code> is well-formed for all <code>i</code>
-<del>&#8714; <code>[0, size())</code></del>
-<ins>&#x2208; [0, <code>size()</code>)<ins>.
-</blockquote>
--->
 
 In [**parallel.simd.reductions**] replace all occurences of "for all <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <math>j</math> &lt; <code>M::size()</code> &#8896; <code>mask[</code><math>j</math><code>]</code> }</del>" with
 "for all <ins>selected indices <math>i</math></ins>".
@@ -157,12 +128,6 @@ template&lt;class V, class Abi&gt;
 
 *Returns:* An array of data-parallel objects with the `i`-th `simd`/`simd_mask` element of the `j`-th
 element initialized to the value of the element in `x` with index `i + j * V::size()`.
-
-*Remarks:* These functions shall not participate in overload resolution unless
-- <code>simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;</code> is an integral multiple of `V::size()`, and
-- for the overload with a `simd` parameter `is_simd_v<V>` is `true`, <ins>or </ins>for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.
-
-NOTE: @LWG: Consider a larger change instead:
 
 *Remarks:* These functions shall not participate in overload resolution unless <ins>either</ins>
 - <del>`simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, and</del>
@@ -560,7 +525,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const sim
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
 
-*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<math>i</math>])</code> for all <math>i</math> &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[</code><math>i</math><code>])</code> for all <math>i</math> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
@@ -585,7 +550,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(co
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
-*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<math>i</math>])</code> for all <math>i</math> &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[</code><math>i</math><code>])</code> for all <math>i</math> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
