@@ -171,7 +171,7 @@ Consider a target architecture supporting the extended ABI tags `__simd128` and 
 the target architecture does not support long double with either ABI tag. The implementation therefore defines <ins>`compatible<T>` as an alias for:</ins>
 - <del>`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</del>
 - <del>`compatible<long double>` as an alias for scalar.</del>
-- <ins>`scalar` if `T` is `long double`, and</ins>
+- <ins>`scalar` if `T` is the same type as `long double`, and</ins>
 - <ins>`__simd128` otherwise.</ins>
 — *end example* ]
 </blockquote>
@@ -548,7 +548,7 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
 
 The return type is
 - `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` <del>is</del><ins>if</ins> `U` is `T`<del>, otherwise</del><ins>;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` <del>is</del><ins>if</ins> `U` is <ins>the same type as</ins> `T`<del>, otherwise</del><ins>;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
 </blockquote>
 
@@ -571,7 +571,7 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
 
 The return type is
 - `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` if either `U` is `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is `make_signed_t<T>`;</ins>
+- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` if either `U` is<ins> the same type as</ins> `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is the same type as `make_signed_t<T>`;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
 </blockquote>
 
@@ -632,7 +632,5 @@ Modify [**parallel.simd.mask.reductions**] as follows:
 <!--
 * Updating refs to IS
 * US 17 should follow the style of P...
-* US18 coll nodeduce type_identity
-* US23 fix the exact_bool see belows
-* CH15 "T is the same type as U"
+* US18 call nodeduce type_identity
 -->
