@@ -22,6 +22,7 @@ pre.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
 code.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
 ins, ins * { background-color: rgb(200, 250, 200); }
 del, del * { background-color: rgb(250, 200, 200); }
+math { font-style: italic; }
 </style>
 
 NOTE: All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for
@@ -36,15 +37,15 @@ CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 <li>Replace all occurences of <del>&#8714;</del> with <ins>&#x2208;</ins>.</li>
 <li>Replace all occurences of <del>&#8469;<sub>0</sub></del> with <ins>&#8469;</ins>.</li>
 <li>Replace all occurences of <del>-th</del> to <ins><sup>th</sup></ins>.</li>
-<li>Use math font for variables that are only used in prose. Use code font for variables that are used in code at least once.</li>
+<li>Replace all occurences of <code>i</code> and <code>j</code> (code font) with <math>i</math> and <math>j</math> (math font) respectively.
 </ul>
 
 <!--
 Modify [**parallel.simd.whereexpr**] p5 as follows:
 <blockquote>
-The <em>selected indices</em> signify the integers <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }.</del>
+The <em>selected indices</em> signify the integers <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }.</del>
 <ins><em>i</em> &#x2208; {<em>j</em> &#x2208; &#8469; &#x2223; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[j]</code> }.</ins>
-The <em>selected elements</em> signify the elements <code>data[i]</code> for all selected indices <code>i</code>.
+The <em>selected elements</em> signify the elements <code>data[<math>i</math>]</code> for all selected indices <math>i</math>.
 </blockquote>
 -->
 
@@ -53,7 +54,7 @@ Modify [**parallel.simd.whereexpr**] p12 as follows:
 If the template parameter <code>Flags</code> is <code>vector_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>memory_alignment_v&lt;T, U&gt;</code>.
 If the template parameter <code>Flags</code> is <code>overaligned_tag&lt;N&gt;</code>, <code>mem</code> shall point to storage aligned by <code>N</code>.
 If the template parameter <code>Flags</code> is <code>element_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>alignof(U)</code>.
-If <code>M</code> is not <code>bool</code>, the largest <del><code>i</code> &#8714; <code>[0, M::size())</code> where <code>mask[i]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
+If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#8714; <code>[0, M::size())</code> where <code>mask[<math>i</math>]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
 </blockquote>
 
 <!--
@@ -77,8 +78,8 @@ This constructor shall not participate in overload resolution unless <code>simd(
 </blockquote>
 -->
 
-In [**parallel.simd.reductions**] replace all occurences of "for all <del><code>i</code> &#8714; {<em>j</em> &#8714; &#8469;<sub>0</sub> &#8739; <em>j</em> &lt; <code>M::size()</code> &#8896; <code>mask[</code><em>j</em><code>]</code> }</del>" with
-"for all <ins>selected indices <code>i</code></ins>".
+In [**parallel.simd.reductions**] replace all occurences of "for all <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <math>j</math> &lt; <code>M::size()</code> &#8896; <code>mask[</code><math>j</math><code>]</code> }</del>" with
+"for all <ins>selected indices <math>i</math></ins>".
 
 US 16 {#us16}
 =============
@@ -322,6 +323,7 @@ CH 11, CH 12 {#ch11-12}
 =======================
 
 Add `noexcept` to the following functions in [**parallel.simd**]:
+
 <ul>
 <li>`simd_cast`</li>
 <li>`static_simd_cast`</li>
@@ -343,6 +345,7 @@ Add `noexcept` to the following functions in [**parallel.simd**]:
 </ul>
 
 Remove `noexcept` from  the following functions in [**parallel.simd**]:
+
 <ul>
 <li>`find_first_set` (only the non-simd overload)</li>
 <li>`find_last_set` (only the non-simd overload)</li>
@@ -350,6 +353,7 @@ Remove `noexcept` from  the following functions in [**parallel.simd**]:
 </ul>
 
 Remove the following paragraphs:
+
 <ul>
 <li> [**parallel.simd.whereexpr**] p10</li>
 <li> [**parallel.simd.ctor**] p3</li>
@@ -362,16 +366,12 @@ Remove the following paragraphs:
 </ul>
 
 Modify [**parallel.simd.overview**] p2 as follows:
+
 <blockquote>
 Every specialization of <code>simd</code> shall be a complete type. The specialization <code>simd&lt;T, Abi&gt;</code> is supported if <code>T</code> is a vectorizable type and
 <ul>
-<li>
-<code>Abi</code> is <code>simd_abi::scalar</code>, or
-</li>
-
-<li>
-<code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> <del>is</del> constrained as defined in 9.2.1.
-</li>
+<li><code>Abi</code> is <code>simd_abi::scalar</code>, or</li>
+<li><code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> <del>is</del> constrained as defined in 9.2.1.</li>
 </ul>
 
 If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd&lt;T, Abi&gt;</code> is supported.
@@ -560,7 +560,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const sim
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
 
-*Returns:* A `simd` object with the `i`<sup>th</sup> element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; [0, `size()`).
+*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<math>i</math>])</code> for all <math>i</math> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
@@ -585,7 +585,7 @@ template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(co
 
 Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
-*Returns:* A `simd` object with the `i`<sup>th</sup> element initialized to `static_cast<To>(x[i])` for all `i` &#x2208; [0, `size()`).
+*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<math>i</math>])</code> for all <math>i</math> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
