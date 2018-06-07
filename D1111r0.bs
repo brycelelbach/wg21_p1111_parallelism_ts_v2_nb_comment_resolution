@@ -63,6 +63,21 @@ Modify [**parallel.scope**] Paragraph 3 as follows:
 The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
 </blockquote>
 
+US 18 {#us18}
+=============
+
+Modify [**parallel.alg.ops.synopsis**] as follows:
+
+<blockquote>
+<code>// Exposition only: Suppress template argument deduction.</code><br/>
+<code>template&lt;class T&gt; struct <del>no_deduce</del><ins>type_identity</ins> { using type = T; };</code><br/>
+<code>template&lt;class T&gt; using <del>no_deduce_t</del><ins>type_identity_t</ins> = typename <del>no_deduce</del><ins>type_identity</ins>&lt;T&gt;::type;</code>
+</blockquote>
+
+In [**parallel.alg**], replace all occurences of <del>`no_deduce_t`</del> with <ins>`type_identity_t`</ins>.
+
+In [**parallel.simd**], replace all occurences of <del>`nodeduce_t`</del> with <ins>`type_identity_t`</ins>.
+
 CA 3 {#ca3}
 ===========
 
