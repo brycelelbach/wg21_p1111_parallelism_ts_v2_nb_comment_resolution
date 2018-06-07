@@ -33,10 +33,9 @@ CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 ==============================
 
 <ul>
-<li>Replace all occurences of "&#8714;" with "&#x2208;".</li>
+<li>Replace all occurences of <del>&#8714;</del> with <ins>&#x2208;</ins>.</li>
 <li>Replace all occurences of <del>&#8469;<sub>0</sub></del> with <ins>&#8469;</ins>.</li>
-<li>Change the font of all occurences of "<del><code>[0, size())</code></del>" to "<ins>[0, <code>size()</code>)<ins>".</li>
-<li>Replace all occurences of "<del>-th</del>" to "<ins><sup>th</sup></ins>".</li>
+<li>Replace all occurences of <del>-th</del>" to "<ins><sup>th</sup></ins>.</li>
 <li>Use math font for variables that are only used in prose. Use code font for variables that are used in code at least once.</li>
 </ul>
 
