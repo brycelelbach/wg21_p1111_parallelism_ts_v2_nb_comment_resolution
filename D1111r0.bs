@@ -49,8 +49,8 @@ descriptions of the location are provided instead of paragraph numbers.
 
 NOTE: The changes should be applied in order.
 
-CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
-==============================
+CA 7, CA 8, CA 10, US 5, US 6, CH 8 {#ca7-10us5-6ch8}
+=====================================================
 
 <ul>
 <li>Replace all occurrences of <del>&#8714;</del> with <ins>&#x2208;</ins>.</li>
@@ -208,7 +208,7 @@ Modify [**parallel.exceptions.synopsis**] p2 as follows:
 <!-- This is a copy of the tzdb wording -->
 
 DE 1, DE 2 {#de1-2}
-===========
+===================
 
 Modify the `array`-returning declarations of `split` in [**parallel.simd.synopsis**]:
 
@@ -253,7 +253,7 @@ element initialized to the value of the element in `x` with index `i + j * V::si
 </blockquote>
 
 CH 2 {#ch2}
-================
+===========
 
 Modify the synopsis for namespace `simd_abi` in [**parallel.simd.abi**] as follows:
 
@@ -269,8 +269,8 @@ namespace simd_abi {
 </code></pre>
 </blockquote>
 
-CH 3, 4 {#ch3-4}
-================
+CH 3, CH 4 {#ch3-4}
+===================
 
 Modify [**parallel.simd.abi**] Paragraph 9 as follows:
 
@@ -290,8 +290,8 @@ the target architecture does not support long double with either ABI tag. The im
 
 </blockquote>
 
-US 1, 2 {#us1}
-===========
+US 1, US 2 {#us1-2}
+===================
 
 Modify [**parallel.simd.binary**] as follows:
 
@@ -467,12 +467,11 @@ Every specialization of <code>simd</code> shall be a complete type. The speciali
 If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd&lt;T, Abi&gt;</code> is supported.
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
-If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
-<ul>
-<li>`is_nothrow_move_constructible_v<simd<T, Abi>>`,</li>
-<li>`is_nothrow_move_assignable_v<simd<T, Abi>>`, and</li>
-<li>`is_nothrow_default_constructible_v<simd<T, Abi>>`.</li>
-</ul></ins>
+If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:</ins>
+- <ins>`is_nothrow_move_constructible_v<simd<T, Abi>>`, and</ins>
+- <ins>`is_nothrow_move_assignable_v<simd<T, Abi>>`, and</ins>
+- <ins>`is_nothrow_default_constructible_v<simd<T, Abi>>`.</ins>
+
 </blockquote>
 
 Modify [**parallel.simd.mask.overview**] p2 as follows:
@@ -491,11 +490,10 @@ If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
 If <code>simd_mask&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
-<ul>
-<li>`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`,</li>
-<li>`is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and</li>
-<li>`is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</li>
-</ul></ins>
+- <ins>`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`, and</ins>
+- <ins>`is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and</ins>
+- <ins>`is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</ins>
+
 </blockquote>
 
 After [**parallel.simd.mask.ctor**] p8 add a new paragraph:
@@ -519,25 +517,6 @@ After [**parallel.simd.mask.reductions**] p13, p16, and p22 add a new paragraph:
 </ins>
 </blockquote>
 
-
-<!--
-After [**parallel.simd.whereexpr**] p27 add:
-<blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
--->
-
-<!-- after the ctor is noexcept, the following is unnecessary:
-Modify [**parallel.simd.ctor**] p11 as follows:
-<blockquote>
-The calls to <code>gen</code> are unsequenced with respect to each other.
-Vectorization-unsafe standard library functions may not be invoked by <code>gen</code> ([algorithms.parallel.exec]).
-<ins>An invocation of <code>gen</code> shall not exit via an uncaught exception.</ins>
-</blockquote>
--->
-
 CH 13 {#ch13}
 =============
 
@@ -553,82 +532,10 @@ public:
   using abi_type = Abi;
 
 </code></pre>
-<!--
-  static constexpr size_t size() noexcept;
-
-  simd() = default;
-
-  <i>// implicit conversion constructor</i>
-  template&lt;class U&gt; simd(const simd&lt;U, simd_abi::fixed_size&lt;size()&gt;&gt;&amp;);
-
-  <i>// implicit broadcast constructor (see below for constraints)</i>
-  template&lt;class U&gt; simd(U&amp;&amp; value);
-
-  <i>// generator constructor (see below for constraints)</i>
-  template&lt;class G&gt; explicit simd(G&amp;&amp; gen);
-
-  <i>// load constructor</i>
-  template&lt;class U, class Flags&gt; simd(const U* mem, Flags f);
-
-  <i>// 9.3.4, Copy functions</i>
-  template&lt;class U, class Flags&gt; copy_from(const U* mem, Flags f);
-  template&lt;class U, class Flags&gt; copy_to(U* mem, Flags f);
-
-  <i>// 9.3.5, Subscript operators</i>
-  reference operator[](size_t);
-  value_type operator[](size_t) const;
-
-  <i>// 9.3.6, Unary operators</i>
-  simd&amp; operator++();
-  simd operator++(int);
-  simd&amp; operator--();
-  simd operator--(int);
-  mask_type operator!() const;
-  simd operator~() const;
-  simd operator+() const;
-  simd operator-() const;
-
-  <i>// 9.4.1, Binary operators</i>
-  friend simd operator+(const simd&amp;, const simd&amp;);
-  friend simd operator-(const simd&amp;, const simd&amp;);
-  friend simd operator*(const simd&amp;, const simd&amp;);
-  friend simd operator/(const simd&amp;, const simd&amp;);
-  friend simd operator%(const simd&amp;, const simd&amp;);
-  friend simd operator&amp;(const simd&amp;, const simd&amp;);
-  friend simd operator|(const simd&amp;, const simd&amp;);
-  friend simd operator^(const simd&amp;, const simd&amp;);
-  friend simd operator&lt;&lt;(const simd&amp;, const simd&amp;);
-  friend simd operator&gt;&gt;(const simd&amp;, const simd&amp;);
-  friend simd operator&lt;&lt;(const simd&amp;, int);
-  friend simd operator&gt;&gt;(const simd&amp;, int);
-
-  <i>// 9.4.2, Compound assignment</i>
-  friend simd&amp; operator+=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator-=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator*=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator/=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator%=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator&amp;=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator|=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator^=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator&lt;&lt;=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator&gt;&gt;=(simd&amp;, const simd&amp;);
-  friend simd&amp; operator&lt;&lt;=(simd&amp;, int);
-  friend simd&amp; operator&gt;&gt;=(simd&amp;, int);
-
-  <i>// 9.4.3, Compare operators</i>
-  friend mask_type operator==(const simd&amp;, const simd&amp;);
-  friend mask_type operator!=(const simd&amp;, const simd&amp;);
-  friend mask_type operator&gt;=(const simd&amp;, const simd&amp;);
-  friend mask_type operator&lt;=(const simd&amp;, const simd&amp;);
-  friend mask_type operator&gt;(const simd&amp;, const simd&amp;);
-  friend mask_type operator&lt;(const simd&amp;, const simd&amp;);
-};
--->
 </blockquote>
 
 US 13, US 15, CH 14, CH 15 {#us13-15ch14-15}
-=============
+============================================
 
 Modify the definition of `simd`'s `U&&` constructor in [**parallel.simd.ctor**] as follows:
 
@@ -689,14 +596,15 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
 
 *Throws:* Nothing.
 
-*Remarks:* The function shall not participate in overload resolution unless either
+*Remarks:* The function shall not participate in overload resolution unless either<ins>:</ins>
 - `is_simd_v<T>` is `false`, or
 - `T::size() == simd<U, Abi>::size()` is `true`.
 
-The return type is
+The return type is<ins>:</ins>
 - `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` if either `U` is<ins> the same type as</ins> `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is the same type as `make_signed_t<T>`;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+
 </blockquote>
 
 US 22 {#us22}
@@ -747,8 +655,3 @@ Modify [**parallel.simd.mask.reductions**] as follows:
 *Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</ins>
 </blockquote>
 
-<!--
-* Updating refs to IS
-* US 17 should follow the style of P...
-* US18 call nodeduce type_identity
--->
