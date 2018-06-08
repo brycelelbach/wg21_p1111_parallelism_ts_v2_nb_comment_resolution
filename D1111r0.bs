@@ -53,7 +53,8 @@ NOTE: The changes should be applied in order.
 CA 7, CA 8, CA 10, US 5, US 6, CH 8 {#ca7-10us5-6ch8}
 =====================================================
 
-- Replace all occurrences of <span class="del">&#8714;</span> with <span class="ins">be in the range</span>.
+- Replace all occurrences of <span class="del">&#8714;</span> preceding a half-open range with <span class="ins">in the range of</span>.
+- Replace all remaining occurrences of <span class="del">&#8714;</span> with <span class="ins">&#x2208;</span>.
 - Replace all occurrences of <span class="del">&#8469;<sub>0</sub></span> with <span class="ins">&#8469;</span>.
 - Replace all occurrences of <span class="del">-th</span> to <span class="ins"><sup>th</sup></span>.
 - Replace all occurrences of <code>i</code> and <code>j</code> (code font) with <span class="math">i</span> and <span class="math">j</span> (math font) respectively.
