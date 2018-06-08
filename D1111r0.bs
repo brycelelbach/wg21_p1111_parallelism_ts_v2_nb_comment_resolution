@@ -1,8 +1,8 @@
 <pre class='metadata'>
-Title: Proposed Resolution to NB Comments on the Parallelism TS v2
-Shortname: D1111
+Title: Resolution to NB Comments on the Parallelism TS v2
+Shortname: P1111
 Revision: 0
-Status: D
+Status: P
 Group: WG21
 Audience: SG1, LEWG, LWG
 Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_proposed_resolution_to_nb_comments_on_the_parallelism_ts_v2/issues
