@@ -3,8 +3,8 @@ Title: Proposed Resolution to NB Comments on the Parallelism TS v2
 Shortname: D1111
 Revision: 0
 Status: D
-Audience: SG1, LEWG, LWG
 Group: WG21
+Audience: SG1, LEWG, LWG
 Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_proposed_resolution_to_nb_comments_on_the_parallelism_ts_v2/issues
 URL: http://wg21.link/D1111R0
 Editor: Bryce Adelstein Lelbach, NVIDIA, brycelelbach@gmail.com
@@ -13,6 +13,7 @@ Date: 2018-06-04
 Markup Shorthands: markdown yes
 Toggle Diffs: yes
 No Abstract: yes
+Boilerplate: style-syntax-highlighting off
 </pre>
 
 <pre class='biblio'>
@@ -29,14 +30,14 @@ No Abstract: yes
 </pre>
 
 <style>
-pre.highlight:not(.idl), pre.highlight:not(.idl) * { background-color: transparent; }
-code.highlight:not(.idl), code.highlight:not(.idl) * { background-color: transparent; }
-pre.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
-code.highlight:not(.idl) ins { background-color: rgb(200, 250, 200); }
-ins, ins * { background-color: rgb(200, 250, 200); }
-del, del * { background-color: rgb(250, 200, 200); }
-math { font-style: italic; overflow-wrap: normal; }
-code { overflow-wrap: normal; }
+ins, ins *, span.ins, span.ins * { background-color: rgb(200, 250, 200); color: rgb(0, 136, 0); text-decoration: none; }
+del, del *, span.del, span.del * { background-color: rgb(250, 200, 200); color: rgb(255, 0, 0); text-decoration: line-through; text-decoration-color: rgb(255, 0, 0); }
+math, span.math { font-family: serif; font-style: italic; }
+<!-- https://stackoverflow.com/questions/3200249/html-list-style-type-dash -->
+ul { margin: 0; list-style-type: none; }
+ul > li { text-indent: -5px; }
+ul > li p { display: inline; }
+ul > li:before { content: "—"; text-indent: -5px; }
 </style>
 
 NOTE: All wording is relative to [[N4744]], the Proposed Draft Technical
@@ -52,23 +53,30 @@ NOTE: The changes should be applied in order.
 CA 7, CA 8, CA 10, US 5, US 6, CH 8 {#ca7-10us5-6ch8}
 =====================================================
 
-<ul>
-<li>Replace all occurrences of <del>&#8714;</del> with <ins>&#x2208;</ins>.</li>
-<li>Replace all occurrences of <del>&#8469;<sub>0</sub></del> with <ins>&#8469;</ins>.</li>
-<li>Replace all occurrences of <del>-th</del> to <ins><sup>th</sup></ins>.</li>
-<li>Replace all occurrences of <code>i</code> and <code>j</code> (code font) with <math>i</math> and <math>j</math> (math font) respectively.
-</ul>
+- Replace all occurrences of <span class="del">&#8714;</span> with <span class="ins">be in the range</span>.
+- Replace all occurrences of <span class="del">&#8469;<sub>0</sub></span> with <span class="ins">&#8469;</span>.
+- Replace all occurrences of <span class="del">-th</span> to <span class="ins"><sup>th</sup></span>.
+- Replace all occurrences of <code>i</code> and <code>j</code> (code font) with <span class="math">i</span> and <span class="math">j</span> (math font) respectively.
 
-Modify [**parallel.simd.whereexpr**] p12 as follows:
+Modify [**parallel.simd.whereexpr**] paragraph 12 as follows:
 <blockquote>
 If the template parameter <code>Flags</code> is <code>vector_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>memory_alignment_v&lt;T, U&gt;</code>.
 If the template parameter <code>Flags</code> is <code>overaligned_tag&lt;N&gt;</code>, <code>mem</code> shall point to storage aligned by <code>N</code>.
 If the template parameter <code>Flags</code> is <code>element_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>alignof(U)</code>.
-If <code>M</code> is not <code>bool</code>, the largest <del><math>i</math> &#8714; <code>[0, M::size())</code> where <code>mask[</code><math>i</math><code>]</code> is <code>true</code></del><ins>selected index</ins> is less than the number of values pointed to by <code>mem</code>.
+If <code>M</code> is not <code>bool</code>, the largest <span class="del"><span class="math">i</span> &#8714; <code>[0, M::size())</code> where <code>mask[<span class="math">i</span>]</code> is <code>true</code></span><span class="ins">selected index</span> is less than the number of values pointed to by <code>mem</code>.
 </blockquote>
 
-In [**parallel.simd.reductions**] replace all occurrences of "for all <del><math>i</math> &#8714; {<math>j</math> &#8714; &#8469;<sub>0</sub> &#8739; <math>j</math> &lt; <code>M::size()</code> &#8896; <code>mask[</code><math>j</math><code>]</code> }</del>" with
-"for all <ins>selected indices <math>i</math></ins>".
+In [**parallel.simd.reductions**] replace all occurrences of:
+
+<blockquote>
+for all <span class="del"><span class="math">i</span> &#8714; {<span class="math">j</span> &#8714; &#8469;<sub>0</sub> &#8739; <span class="math">j</span> &lt; <code>M::size()</code> &#8896; <code>mask[<span class="math">j</span>]</code>}</span>
+</blockquote>
+
+with:
+
+<blockquote>
+for all <span class="ins">selected indices <span class="math">i</span></span>
+</blockquote>
 
 US 8 {#us8}
 ===========
@@ -100,30 +108,30 @@ Move paragraphs 4 and 5 of [**parallel.simd.mask.overview**] into a new subsecti
 US 14 {#us14}
 =============
 
-Modify [**parallel.references**] Paragraph 2 as follows:
+Modify [**parallel.references**] paragraph 2 as follows:
 
 <blockquote>
 ISO/IEC 14882:2017 is herein called the <i><b>C++ Standard</b></i>.
-<ins>References to clauses within the C++ Standard are written as "C++17 §3.2".</ins>
+<span class="ins">&nbsp;References to clauses within the C++ Standard are written as "C++17 §3.2".</span>
 The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <i><b>C++ Standard Library</i></b>.
 The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <i><b>C++ Standard Algorithms Library</i></b>.
 </blockquote>
 
 Replace all references to the C++ Standard with references in the style "C++17 §3.2":
 
-Modify [**parallel.simd.ctor**] Paragraph 7 as follows:
+Modify [**parallel.simd.ctor**] paragraph 7 as follows:
 
 <blockquote>
-if both U and value_type are integral, the integer conversion rank <del>[conv.rank]</del><ins>(C++17 §7.15)</ins> of value_type is greater than the integer conversion rank of U.
+if both U and value_type are integral, the integer conversion rank <span class="del">[conv.rank]</span><span class="ins">(C++17 §7.15)</span> of value_type is greater than the integer conversion rank of U.
 </blockquote>
 
-Modify [**parallel.simd.ctor**] Paragraph 11 as follows:
+Modify [**parallel.simd.ctor**] paragraph 11 as follows:
 
 <blockquote>
-Vectorization-unsafe standard library functions may not be invoked by `gen` (<del>[algorithms.parallel.exec]</del><ins>C++17 §28.4.3</ins>).
+Vectorization-unsafe standard library functions may not be invoked by <code>gen</code> (<span class="del">[algorithms.parallel.exec]</span><span class="ins">C++17 §28.4.3</span>).
 </blockquote>
 
-Modify [**parallel.simd.reductions**] Paragraph 4 as follows:
+Modify [**parallel.simd.reductions**] paragraph 4 as follows:
 
 <blockquote>
 ```
@@ -134,16 +142,16 @@ T reduce(const simd<T, Abi>& x, BinaryOperation binary_op = {});
 *Requires:* `binary_op` shall be callable with two arguments of type `T` returning `T`, or callable
 with two arguments of type `simd<T, A1>` returning `simd<T, A1>` for every `A1` that is an ABI tag type.
 
-*Returns:* <code><em>GENERALIZED_SUM</em>(binary_op, x.data[<em>i</em>], ...)</code> for all <math>i</math> &#x2208; `[0, size())`<ins>&nbsp;(C++17 §29.2)</ins>.
+*Returns:* <code><em>GENERALIZED_SUM</em>(binary_op, x.data[<em>i</em>], ...)</code> for all <span class="math">i</span> &#x2208; `[0, size())`<span class="ins"> (C++17 §29.2)</span>.
 </blockquote>
 
 US 16 {#us16}
 =============
 
-Modify [**parallel.scope**] Paragraph 3 as follows:
+Modify [**parallel.scope**] paragraph 3 as follows:
 
 <blockquote>
-The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <ins>programming language</ins> <del>standard algorithms library</del>. It gives advice on extensions to those vendors who wish to provide them.
+The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <span class="ins">programming language</span><span class="del">standard algorithms library</span>. It gives advice on extensions to those vendors who wish to provide them.
 </blockquote>
 
 US 17 {#us17}
@@ -168,13 +176,33 @@ Modify [**parallel.alg.ops.synopsis**] as follows:
 
 <blockquote>
 <code>// Exposition only: Suppress template argument deduction.</code><br/>
-<code>template&lt;class T&gt; struct <del>no_deduce</del><ins>type_identity</ins> { using type = T; };</code><br/>
-<code>template&lt;class T&gt; using <del>no_deduce_t</del><ins>type_identity_t</ins> = typename <del>no_deduce</del><ins>type_identity</ins>&lt;T&gt;::type;</code>
+<code>template&lt;class T&gt; struct <span class="del">no_deduce</span><span class="ins">type_identity</span> { using type = T; };</code><br/>
+<code>template&lt;class T&gt; using <span class="del">no_deduce_t</span><span class="ins">type_identity_t</span> = typename <span class="del">no_deduce</span><span class="ins">type_identity</span>&lt;T&gt;::type;</code>
 </blockquote>
 
-In [**parallel.alg**], replace all occurrences of <del>`no_deduce_t`</del> with <ins>`type_identity_t`</ins>.
+In [**parallel.alg**], replace all occurrences of:
 
-In [**parallel.simd**], replace all occurrences of <del>`nodeduce_t`</del> with <ins>`type_identity_t`</ins>.
+<blockquote>
+<span class="del">`no_deduce_t`</span>
+</blockquote>
+
+with:
+
+<blockquote>
+<span class="ins">`type_identity_t`</span>
+</blockquote>
+
+In [**parallel.simd**], replace all occurrences of:
+
+<blockquote>
+<span class="del">`nodeduce_t`</span>
+</blockquote>
+
+with:
+
+<blockquote>
+<span class="ins">`type_identity_t`</span>
+</blockquote>
 
 CA 3 {#ca3}
 ===========
@@ -184,14 +212,14 @@ Remove the column titled "Doc. No." from [**parallel.general.features**] Table 1
 CA 4 {#ca4}
 ===========
 
-Modify [**parallel.alg.reductions**] Paragraph 3 as follows:
+Modify [**parallel.alg.reductions**] paragraph 3 as follows:
 
 <blockquote>
 Modifications to the accumulator by the application of element access functions accrue as
 partial results.
 At some point before the algorithm returns, the partial results are combined, two at a time, using the reduction object's combiner operation until a single value remains, which is then assigned back to the live-out object.
 [ *Note:*
-<del>in</del><ins>In</ins> order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
+<span class="del">in</span><span class="ins">In</span> order to produce useful results, modifications to the accumulator should be limited to commutative operations closely related to the combiner operation.
 For example if the combiner is `plus<T>`, incrementing the accumulator would be consistent with the combiner but doubling it or assigning to it would not.
 — *end note* ]
 </blockquote>
@@ -202,8 +230,8 @@ CA 9 {#ca9}
 Modify [**parallel.exceptions.synopsis**] p2 as follows:
 
 <blockquote>
-<del>The type <code>exception_list::iterator</code> fulfills the requirements of <code>ForwardIterator</code>.</del>
-<ins>`exception_list::iterator` is an iterator which meets the forward iterator requirements and has a value type of `exception_ptr`.</ins>
+<span class="del">The type <code>exception_list::iterator</code> fulfills the requirements of <code>ForwardIterator</code>.</span>
+<span class="ins">`exception_list::iterator` is an iterator which meets the forward iterator requirements and has a value type of `exception_ptr`.</span>
 </blockquote>
 <!-- This is a copy of the tzdb wording -->
 
@@ -224,8 +252,8 @@ template&lt;class V, class Abi&gt;
   array&lt;V, simd_size_v&lt;typename V::value_type, Abi&gt; / V::size()&gt;
     split(const simd&lt;typename V::value_type, Abi&gt;&amp;);
 template&lt;class V, class Abi&gt;
-  array&lt;V, simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt; / V::size()&gt;
-    split(const simd_mask&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;&amp;);
+  array&lt;V, simd_size_v&lt;typename V::<span class="ins">simd_type::</span>value_type, Abi&gt; / V::size()&gt;
+    split(const simd_mask&lt;typename V::<span class="ins">simd_type::</span>value_type, Abi&gt;&amp;);
 </code></pre>
 </blockquote>
 
@@ -237,18 +265,18 @@ template&lt;class V, class Abi&gt;
   array&lt;V, simd_size_v&lt;typename V::value_type, Abi&gt; / V::size()&gt;
     split(const simd&lt;typename V::value_type, Abi&gt;&amp; x);
 template&lt;class V, class Abi&gt;
-  array&lt;V, simd_size_v&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt; / V::size()&gt;
-    split(const simd_mask&lt;typename V::<ins>simd_type::</ins>value_type, Abi&gt;&amp; x);
+  array&lt;V, simd_size_v&lt;typename V::<span class="ins">simd_type::</span>value_type, Abi&gt; / V::size()&gt;
+    split(const simd_mask&lt;typename V::<span class="ins">simd_type::</span>value_type, Abi&gt;&amp; x);
 </code></pre>
 
 *Returns:* An array of data-parallel objects with the `i`-th `simd`/`simd_mask` element of the `j`-th
 element initialized to the value of the element in `x` with index `i + j * V::size()`.
 
-*Remarks:* These functions shall not participate in overload resolution unless <ins>either</ins>
-- <del>`simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, and</del>
-- <del>for the overload with a `simd` parameter `is_simd_v<V>` is `true`, for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.</del>
-- <ins>`is_simd_v<V>` is `true` and `simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, or</ins>
-- <ins>`is_simd_mask_v<V>` is `true` and `simd_size_v<typename V::simd_type::value_type, Abi>` is an integral multiple of `V::size()`.</ins>
+*Remarks:* These functions shall not participate in overload resolution unless <span class="ins">either:</span>
+- <span class="del">`simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, and</span>
+- <span class="del">for the overload with a `simd` parameter `is_simd_v<V>` is `true`, for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.</span>
+- <span class="ins">`is_simd_v<V>` is `true` and `simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, or</span>
+- <span class="ins">`is_simd_mask_v<V>` is `true` and `simd_size_v<typename V::simd_type::value_type, Abi>` is an integral multiple of `V::size()`.</span>
 
 </blockquote>
 
@@ -262,7 +290,7 @@ Modify the synopsis for namespace `simd_abi` in [**parallel.simd.abi**] as follo
 namespace simd_abi {
   struct scalar {};
   template&lt;int N&gt; struct fixed_size {};
-  template&lt;class T&gt; inline constexpr in<ins>t</ins> max_fixed_size = <i>implementation-defined</i>;
+  template&lt;class T&gt; inline constexpr in<span class="ins">t</span> max_fixed_size = <i>implementation-defined</i>;
   template&lt;class T&gt; using compatible = <i>implementation-defined</i>;
   template&lt;class T&gt; using native = <i>implementation-defined</i>;
 }
@@ -272,7 +300,7 @@ namespace simd_abi {
 CH 3, CH 4 {#ch3-4}
 ===================
 
-Modify [**parallel.simd.abi**] Paragraph 9 as follows:
+Modify [**parallel.simd.abi**] paragraph 9 as follows:
 
 <blockquote>
 `compatible<T>` is an implementation-defined alias for an ABI tag.
@@ -282,11 +310,11 @@ The intent is to use the ABI tag producing the most efficient data-parallel exec
 
 [ *Example:*
 Consider a target architecture supporting the extended ABI tags `__simd128` and `__simd256`, where the `__simd256` type requires an optional ISA extension on said architecture. Also,
-the target architecture does not support long double with either ABI tag. The implementation therefore defines <ins>`compatible<T>` as an alias for:</ins>
-- <del>`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</del>
-- <del>`compatible<long double>` as an alias for scalar.</del>
-- <ins>`scalar` if `T` is the same type as `long double`, and</ins>
-- <ins>`__simd128` otherwise.</ins> — *end example* ]
+the target architecture does not support long double with either ABI tag. The implementation therefore defines <span class="ins">`compatible<T>` as an alias for:</span>
+- <span class="del">`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</span>
+- <span class="del">`compatible<long double>` as an alias for scalar.</span>
+- <span class="ins">`scalar` if `T` is the same type as `long double`, and</span>
+- <span class="ins">`__simd128` otherwise.</span> — *end example* ]
 
 </blockquote>
 
@@ -309,7 +337,7 @@ friend simd operator<<(const simd& lhs, const simd& rhs);
 friend simd operator>>(const simd& lhs, const simd& rhs);
 </xmp>
 
-*Returns:* A `simd` object initialized with the results of <del>the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</ins>
+*Returns:* A `simd` object initialized with the results of <span class="del">the element-wise application of the indicated operator.</span><span class="ins">applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 
 *Throws:* Nothing.
 
@@ -331,11 +359,11 @@ friend simd&amp; operator|=(simd&amp; lhs, const simd&amp; rhs);
 friend simd&amp; operator^=(simd&amp; lhs, const simd&amp; rhs);
 friend simd&amp; operator&lt;&lt;=(simd&amp; lhs, const simd&amp; rhs);
 friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, const simd&amp; rhs);
-<del>friend simd&amp; operator&lt;&lt;=(simd&amp; lhs, int n);
-friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, int n);</del>
+<span class="del">friend simd&amp; operator&lt;&lt;=(simd&amp; lhs, int n);
+friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, int n);</span>
 </code></pre>
 
-*Effects:* These operators <del>perform the indicated binary element-wise operation.</del> <ins>apply the indicated operator to `lhs` and `rhs` as an element-wise operation.</ins>
+*Effects:* These operators <span class="del">perform the indicated binary element-wise operation.</span><span class="ins">apply the indicated operator to `lhs` and `rhs` as an element-wise operation.</span>
 
 *Returns:* `lhs`.
 
@@ -343,29 +371,31 @@ friend simd&amp; operator&gt;&gt;=(simd&amp; lhs, int n);</del>
 
 *Remarks:* These operators shall not participate in overload resolution unless the indicated operator can be applied to objects of type `value_type`.
 
-<ins>
-`friend simd& operator<<=(simd& lhs, int n);`<br/>
-`friend simd& operator>>=(simd& lhs, int n);`
+<ins><div>
+```
+friend simd& operator<<=(simd& lhs, int n);
+friend simd& operator>>=(simd& lhs, int n);
+```
 
 *Effects:* Equivalent to: `return operator@=(lhs, simd(n));`
 
 *Remarks:* These operators shall not participate in overload resolution unless the indicated operator can be applied to objects of type `value_type`.
-</ins>
+</div></ins>
 </blockquote>
 
 Modify [**parallel.simd.comparison**] as follows:
 
 <blockquote>
 <code><pre>
-friend mask_type operator==(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
-friend mask_type operator!=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
-friend mask_type operator&gt;=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
-friend mask_type operator&lt;=(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
-friend mask_type operator&gt;(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
-friend mask_type operator&lt;(const simd&amp; <ins>lhs</ins>, const simd&amp; <ins>rhs</ins>);
+friend mask_type operator==(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
+friend mask_type operator!=(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
+friend mask_type operator&gt;=(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
+friend mask_type operator&lt;=(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
+friend mask_type operator&gt;(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
+friend mask_type operator&lt;(const simd&amp; <span class="ins">lhs</span>, const simd&amp; <span class="ins">rhs</span>);
 </pre></code>
 
-*Returns:* A `simd_mask` object initialized with the results of <del>the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</ins>
+*Returns:* A `simd_mask` object initialized with the results of <span class="del">the element-wise application of the indicated operator.</span><span class="ins">applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 
 *Throws:* Nothing.
 </blockquote>
@@ -374,14 +404,14 @@ Modify [**parallel.simd.mask.binary**] as follows:
 
 <blockquote>
 <code><pre>
-friend simd_mask operator&amp;&amp;(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
-friend simd_mask operator||(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
-friend simd_mask operator&amp; (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
-friend simd_mask operator| (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
-friend simd_mask operator^ (const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator&amp;&amp;(const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
+friend simd_mask operator||(const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
+friend simd_mask operator&amp; (const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
+friend simd_mask operator| (const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
+friend simd_mask operator^ (const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
 </pre></code>
 
-*Returns:* A `simd_mask` object initialized with the results of <del>the element-wise appliation of the indicated operator.</del><ins>applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</ins>
+*Returns:* A `simd_mask` object initialized with the results of <span class="del">the element-wise appliation of the indicated operator.</span><span class="ins">applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 </blockquote>
 
 Modify [**parallel.simd.mask.cassign**] as follows:
@@ -393,7 +423,7 @@ friend simd_mask& operator|=(simd_mask& lhs, const simd_mask& rhs) noexcept;
 friend simd_mask& operator^=(simd_mask& lhs, const simd_mask& rhs) noexcept;
 </xmp>
 
-*Effects:* These operators <del>perform the indicated binary element-wise operation.</del> <ins>apply the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</ins>
+*Effects:* These operators <span class="del">perform the indicated binary element-wise operation.</span><span class="ins">apply the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 
 *Returns:* `lhs`.
 </blockquote>
@@ -402,11 +432,11 @@ Modify [**parallel.simd.mask.comparison**] as follows:
 
 <blockquote>
 <code><pre>
-friend simd_mask operator==(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
-friend simd_mask operator!=(const simd_mask&amp; <ins>lhs</ins>, const simd_mask&amp; <ins>rhs</ins>) noexcept;
+friend simd_mask operator==(const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
+friend simd_mask operator!=(const simd_mask&amp; <span class="ins">lhs</span>, const simd_mask&amp; <span class="ins">rhs</span>) noexcept;
 </pre></code>
 
-*Returns:* An object initialized with the results of <del>the element-wise application of the indicated operator.</del> <ins>applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</ins>
+*Returns:* An object initialized with the results of <span class="del">the element-wise application of the indicated operator.</span><span class="ins">applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 </blockquote>
 
 CH 11, CH 12 {#ch11-12}
@@ -414,67 +444,60 @@ CH 11, CH 12 {#ch11-12}
 
 Add `noexcept` to the following functions in [**parallel.simd**]:
 
-<ul>
-<li>`simd_cast`</li>
-<li>`static_simd_cast`</li>
-<li>`split`</li>
-<li>`concat`</li>
-<li>`reduce(const const_where_expression<M, V>& x, plus<> binary_op)`</li>
-<li>`reduce(const const_where_expression<M, V>& x, multiplies<> binary_op)`</li>
-<li>`reduce(const const_where_expression<M, V>& x, bit_and<> binary_op)`</li>
-<li>`reduce(const const_where_expression<M, V>& x, bit_or<> binary_op)`</li>
-<li>`reduce(const const_where_expression<M, V>& x, bit_xor<> binary_op)`</li>
-<li>`hmin`</li>
-<li>`hmax`</li>
-<li>all members of `const_where_expression` and `where_expression`</li>
-<li>all `simd` constructors, except `simd(const U* mem, Flags f)`</li>
-<li>all `simd` member and non-member operators, except `operator[]`</li>
-<li>all `reference` member functions</li>
-<li>`simd_mask()`</li>
+- `simd_cast`
+- `static_simd_cast`
+- `split`
+- `concat`
+- `reduce(const const_where_expression<M, V>& x, plus<> binary_op)`
+- `reduce(const const_where_expression<M, V>& x, multiplies<> binary_op)`
+- `reduce(const const_where_expression<M, V>& x, bit_and<> binary_op)`
+- `reduce(const const_where_expression<M, V>& x, bit_or<> binary_op)`
+- `reduce(const const_where_expression<M, V>& x, bit_xor<> binary_op)`
+- `hmin`
+- `hmax`
+- All members of `const_where_expression` and `where_expression`
+- All `simd` constructors, except `simd(const U* mem, Flags f)`
+- All `simd` member and non-member operators, except `operator[]`
+- All `reference` member functions
+- `simd_mask()`
 <!-- simd_mask has noexcept correct already -->
-</ul>
 
 Remove `noexcept` from  the following functions in [**parallel.simd**]:
 
-<ul>
-<li>`find_first_set` (only the non-simd overload)</li>
-<li>`find_last_set` (only the non-simd overload)</li>
-<li>`clamp` (only in the synopsis)</li>
-</ul>
+- `find_first_set` (only the non-simd overload)</li>
+- `find_last_set` (only the non-simd overload)</li>
+- `clamp` (only in the synopsis)</li>
 
-Remove the following "Throws" paragraphs:
+Remove the following *Throws:* paragraphs:
 
-<ul>
-<li> [**parallel.simd.whereexpr**] p10</li>
-<li> [**parallel.simd.ctor**] p3</li>
-<li> [**parallel.simd.unary**] p5, p9, p13, p17, p20, p23, p27, and p30 </li>
-<li> [**parallel.simd.binary**] p3 and p7</li>
-<li> [**parallel.simd.cassign**] p4</li>
-<li> [**parallel.simd.comparison**] p3</li>
-<li> [**parallel.simd.reductions**] p12, p15, p19, p23, p26, p29,  p32,  p35</li>
-<li> [**parallel.simd.casts**] p4 and p10</li>
-</ul>
+- [**parallel.simd.whereexpr**] paragraph 10
+- [**parallel.simd.ctor**] paragraph 3
+- [**parallel.simd.unary**] paragraph 5, paragraph 9, paragraph 13, paragraph 17, paragraph 20, paragraph 23, paragraph 27, and paragraph 30 
+- [**parallel.simd.binary**] paragraph 3 and paragraph 7
+- [**parallel.simd.cassign**] paragraph 4
+- [**parallel.simd.comparison**] paragraph 3
+- [**parallel.simd.reductions**] paragraph 12, paragraph 15, paragraph 19, paragraph 23, paragraph 26, paragraph 29,  paragraph 32,  paragraph 35
+- [**parallel.simd.casts**] paragraph 4 and paragraph 10
 
-Modify [**parallel.simd.overview**] p2 as follows:
+Modify [**parallel.simd.overview**] paragraph 2 as follows:
 
 <blockquote>
 Every specialization of <code>simd</code> shall be a complete type. The specialization <code>simd&lt;T, Abi&gt;</code> is supported if <code>T</code> is a vectorizable type and
-<ul>
-<li><code>Abi</code> is <code>simd_abi::scalar</code>, or</li>
-<li><code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> <del>is</del> constrained as defined in 9.2.1.</li>
-</ul>
+- <code>Abi</code> is <code>simd_abi::scalar</code>, or
+- <code>Abi</code> is <code>simd_abi::fixed_size&lt;N&gt;</code>, with <code>N</code> <span class="del">is</span> constrained as defined in 9.2.1.
 
 If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd&lt;T, Abi&gt;</code> is supported.
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
-If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:</ins>
-- <ins>`is_nothrow_move_constructible_v<simd<T, Abi>>`, and</ins>
-- <ins>`is_nothrow_move_assignable_v<simd<T, Abi>>`, and</ins>
-- <ins>`is_nothrow_default_constructible_v<simd<T, Abi>>`.</ins>
+If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <span class="ins">Otherwise, the following are `true`:</span>
+- <span class="ins">`is_nothrow_move_constructible_v<simd<T, Abi>>`, and</span>
+- <span class="ins">`is_nothrow_move_assignable_v<simd<T, Abi>>`, and</span>
+- <span class="ins">`is_nothrow_default_constructible_v<simd<T, Abi>>`.</span>
 
 </blockquote>
 
-Modify [**parallel.simd.mask.overview**] p2 as follows:
+Modify [**parallel.simd.mask.overview**] paragraph 2 as follows:
+
 <blockquote>
 Every specialization of <code>simd_mask</code> shall be a complete type. The specialization <code>simd_mask&lt;T, Abi&gt;</code> is supported if <code>T</code> is a vectorizable type and
 <ul>
@@ -489,33 +512,36 @@ Every specialization of <code>simd_mask</code> shall be a complete type. The spe
 If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether <code>simd_mask&lt;T, Abi&gt;</code> is supported.
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
-If <code>simd_mask&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
-- <ins>`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`, and</ins>
-- <ins>`is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and</ins>
-- <ins>`is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</ins>
+If <code>simd_mask&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <span class="ins">Otherwise, the following are `true`:
+- <span class="ins">`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`, and</span>
+- <span class="ins">`is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and</span>
+- <span class="ins">`is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</span>
 
 </blockquote>
 
-After [**parallel.simd.mask.ctor**] p8 add a new paragraph:
-<blockquote>
+After [**parallel.simd.mask.ctor**] paragraph 8 add a new paragraph:
+
 <ins>
-  <em>Throws:</em> Nothing.
-</ins>
-</blockquote>
-
-After [**parallel.simd.mask.copy**] p3 and p7 add a new paragraph:
 <blockquote>
-<ins>
-  <em>Throws:</em> Nothing.
-</ins>
+*Throws:* Nothing.
 </blockquote>
+</ins>
 
-After [**parallel.simd.mask.reductions**] p13, p16, and p22 add a new paragraph:
-<blockquote>
+After [**parallel.simd.mask.copy**] paragraph 3 and paragraph 7 add a new paragraph:
+
 <ins>
-  <em>Throws:</em> Nothing.
-</ins>
+<blockquote>
+*Throws:* Nothing.
 </blockquote>
+</ins>
+
+After [**parallel.simd.mask.reductions**] paragraph 13, paragraph 16, and paragraph 22 add a new paragraph:
+
+<ins>
+<blockquote>
+*Throws:* Nothing.
+</blockquote>
+</ins>
 
 CH 13 {#ch13}
 =============
@@ -528,7 +554,7 @@ template&lt;class T, class Abi&gt; class simd {
 public:
   using value_type = T;
   using reference = <i>see below</i>;
-  using mask_type = simd_mask&lt;T, Abi&gt;<ins>;</ins>
+  using mask_type = simd_mask&lt;T, Abi&gt;<span class="ins">;</span>
   using abi_type = Abi;
 
 </code></pre>
@@ -549,7 +575,7 @@ after conversion to `value_type`.
 
 *Throws:* Any exception thrown while converting the argument to `value_type`.
 
-*Remarks:* Let `From` <ins>denote</ins><del>identify</del> the type `remove_cv_t<remove_reference_t<U>>`. This constructor shall not participate in overload resolution unless:
+*Remarks:* Let `From` <span class="ins">denote</span><span class="del">identify</span> the type `remove_cv_t<remove_reference_t<U>>`. This constructor shall not participate in overload resolution unless:
 - `From` is a vectorizable type and every possibly value of `From` can be represented with `value_type`, or
 - `From` is not an arithmetic type and is implicitly convertible to `value_type`, or
 - `From` is int, or
@@ -564,9 +590,9 @@ Modify the definition of `simd_cast` in [**parallel.simd.casts**] as follows:
 template&lt;class T, class U, class Abi&gt; <i>see below</i> simd_cast(const simd&lt;U, Abi&gt;&amp; x);
 </code></pre>
 
-Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
+Let `To` <span class="ins">denote</span><span class="del">identify</span> `T::value_type` if `is_simd_v<T>` is `true`, or `T` otherwise.
 
-*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[</code><math>i</math><code>])</code> for all <math>i</math> &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the <span class="math">i</span><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<span class="math">i</span>])</code> for all <span class="math">i</span> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
@@ -577,9 +603,9 @@ Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` 
     - `T::size() == simd<U, Abi>::size()` is `true`.
 
 The return type is
-- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` <del>is</del><ins>if</ins> `U` is <ins>the same type as</ins> `T`<del>, otherwise</del><ins>;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
+- `T` if `is_simd_v<T>` is `true`<span class="del">, otherwise</span><span class="ins">;</span>
+- <span class="ins">otherwise,&nbsp;</span>`simd<T, Abi>` <span class="del">is</span><span class="ins">if</span> `U` is <span class="ins">the same type as</span> `T`<span class="del">, otherwise</span><span class="ins">;</span>
+- <span class="ins">otherwise,&nbsp;</span>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
 
 </blockquote>
 
@@ -590,31 +616,31 @@ Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as foll
 template&lt;class T, class U, class Abi&gt; <i>see below</i> static_simd_cast(const simd&lt;U, Abi&gt;&amp; x);
 </code></pre>
 
-Let `To` <ins>denote</ins><del>identify</del> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
+Let `To` <span class="ins">denote</span><span class="del">identify</span> `T::value_type` if `is_simd_v<T>` is true or `T` otherwise.
 
-*Returns:* A `simd` object with the <math>i</math><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[</code><math>i</math><code>])</code> for all <math>i</math> &#x2208; `[0, size())`.
+*Returns:* A `simd` object with the <span class="math">i</span><sup>th</sup> element initialized to <code>static_cast&lt;To&gt;(x[<span class="math">i</span>])</code> for all <span class="math">i</span> &#x2208; `[0, size())`.
 
 *Throws:* Nothing.
 
-*Remarks:* The function shall not participate in overload resolution unless either<ins>:</ins>
+*Remarks:* The function shall not participate in overload resolution unless either<span class="ins">:</span>
 - `is_simd_v<T>` is `false`, or
 - `T::size() == simd<U, Abi>::size()` is `true`.
 
-The return type is<ins>:</ins>
-- `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` if either `U` is<ins> the same type as</ins> `T` or <del>`U` and `T` are integral types that only differ in signedness, otherwise</del> <ins>`make_signed_t<U>` is the same type as `make_signed_t<T>`;</ins>
-- <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
+The return type is<span class="ins">:</span>
+- `T` if `is_simd_v<T>` is `true`<span class="del">, otherwise</span><span class="ins">;</span>
+- <span class="ins">otherwise,&nbsp;</span>`simd<T, Abi>` if either `U` is<span class="ins"> the same type as</span> `T` or <span class="del">`U` and `T` are integral types that only differ in signedness, otherwise</span><span class="ins">`make_signed_t<U>` is the same type as `make_signed_t<T>`;</span>
+- <span class="ins">otherwise,&nbsp;</span>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`.
 
 </blockquote>
 
 US 22 {#us22}
 =============
 
-Modify [**parallel.simd.math**] Paragraph 2 as follows:
+Modify [**parallel.simd.math**] paragraph 2 as follows:
 
 <blockquote>
 Each function overload produced by the above rules applies the indicated `<cmath>` function element-wise.
-<del>The results per element are not required to be bitwise</del><ins>For the mathematical functions, the results per element only need to be approximately</ins> equal to the application of the function which is overloaded for the element type.
+<span class="del">The results per element are not required to be bitwise</span><span class="ins">For the mathematical functions, the results per element only need to be approximately</span> equal to the application of the function which is overloaded for the element type.
 </blockquote>
 
 US 23 {#us23}
@@ -623,35 +649,35 @@ US 23 {#us23}
 Modify [**parallel.simd.synopsis**] as follows:
 
 <blockquote>
-<code>bool all_of       (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool any_of       (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool none_of      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool some_of      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>int popcount      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>int find_first_set(<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>int find_last_set (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
+<code>bool all_of       (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool any_of       (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool none_of      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool some_of      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>int popcount      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>int find_first_set(<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>int find_last_set (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
 </blockquote>
 
 Modify [**parallel.simd.mask.reductions**] as follows:
 
 <blockquote>
-<code>bool all_of       (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool any_of       (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool none_of      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>bool some_of      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>int popcount      (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
+<code>bool all_of       (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool any_of       (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool none_of      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>bool some_of      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>int popcount      (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
 
 *Returns:* <code>all_of</code> and <code>any_of</code> return their arguments; <code>none_of</code> returns the negation of its argument; <code>some_of</code> returns <code>false</code>; <code>popcount</code> returns the integral representation of its argument.
 
-*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</ins>
+*Remarks:* <span class="del">The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</span><span class="ins">The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</span>
 
-<code>int find_first_set(<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
-<code>int find_last_set (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
+<code>int find_first_set(<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
+<code>int find_last_set (<em><span class="del">see below</span><span class="ins">T</span></em>) noexcept;</code><br/>
 
 *Requires:* The value of the argument is <code>true</code>.
 
 *Returns:* <code>0</code>.
 
-*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</ins>
+*Remarks:* <span class="del">The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</span><span class="ins">The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</span>
 </blockquote>
 
