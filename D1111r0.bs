@@ -468,7 +468,11 @@ If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
 If <code>simd&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
-`is_nothrow_move_constructible_v<simd<T, Abi>>`, `is_nothrow_move_assignable_v<simd<T, Abi>>`, and `is_nothrow_default_constructible_v<simd<T, Abi>>`.</ins>
+<ul>
+<li>`is_nothrow_move_constructible_v<simd<T, Abi>>`,</li>
+<li>`is_nothrow_move_assignable_v<simd<T, Abi>>`, and</li>
+<li>`is_nothrow_default_constructible_v<simd<T, Abi>>`.</li>
+</ul></ins>
 </blockquote>
 
 Modify [**parallel.simd.mask.overview**] p2 as follows:
@@ -487,7 +491,11 @@ If <code>Abi</code> is an extended ABI tag, it is implementation-defined whether
 [ *Note:* The intent is for implementations to decide on the basis of the currently targeted system. — *end note* ]
 
 If <code>simd_mask&lt;T, Abi&gt;</code> is not supported, the specialization shall have a deleted default constructor, deleted destructor, deleted copy constructor, and deleted copy assignment. <ins>Otherwise, the following are `true`:
-`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`, `is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and `is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</ins>
+<ul>
+<li>`is_nothrow_move_constructible_v<simd_mask<T, Abi>>`,</li>
+<li>`is_nothrow_move_assignable_v<simd_mask<T, Abi>>`, and</li>
+<li>`is_nothrow_default_constructible_v<simd_mask<T, Abi>>`.</li>
+</ul></ins>
 </blockquote>
 
 After [**parallel.simd.mask.ctor**] p8 add a new paragraph:
