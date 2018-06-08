@@ -735,7 +735,7 @@ Modify [**parallel.simd.mask.reductions**] as follows:
 
 *Returns:* <code>all_of</code> and <code>any_of</code> return their arguments; <code>none_of</code> returns the negation of its argument; <code>some_of</code> returns <code>false</code>; <code>popcount</code> returns the integral representation of its argument.
 
-*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via conversion from `bool`.</ins>
+*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</ins>
 
 <code>int find_first_set(<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
 <code>int find_last_set (<em><del>see below</del><ins>T</ins></em>) noexcept;</code><br/>
@@ -744,7 +744,7 @@ Modify [**parallel.simd.mask.reductions**] as follows:
 
 *Returns:* <code>0</code>.
 
-*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via conversion from `bool`.</ins>
+*Remarks:* <del>The functions shall not participate in overload resolution unless the argument is of type <code>bool</code>.</del><ins>The parameter type <code><em>T</em></code> is an unspecified type that is only constructible via implicit conversion from `bool`.</ins>
 </blockquote>
 
 <!--
