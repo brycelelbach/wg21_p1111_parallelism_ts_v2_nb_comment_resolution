@@ -114,8 +114,8 @@ Modify [**parallel.references**] paragraph 2 as follows:
 <blockquote>
 ISO/IEC 14882:2017 is herein called the <i><b>C++ Standard</b></i>.
 <span class="ins">&nbsp;References to clauses within the C++ Standard are written as "C++17 §3.2".</span>
-The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <i><b>C++ Standard Library</i></b>.
-The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <i><b>C++ Standard Algorithms Library</i></b>.
+The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <i><b>C++ Standard Library</b></i>.
+The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <i><b>C++ Standard Algorithms Library</b></i>.
 </blockquote>
 
 Replace all references to the C++ Standard with references in the style "C++17 §3.2":
