@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: Resolution to NB Comments on the Parallelism TS v2
+Title: Resolutions to NB Comments on the Parallelism TS v2
 Shortname: P1111
 Revision: 0
 Status: P
