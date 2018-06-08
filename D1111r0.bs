@@ -26,12 +26,16 @@ math { font-style: italic; overflow-wrap: normal; }
 code { overflow-wrap: normal; }
 </style>
 
-NOTE: All wording is relative to ISO/IEC PTDS 19750 ([[N4744]]), the PTDS for
-version 2 of the C++ Parallelism Technical Specification.
+NOTE: All wording is relative to ISO/IEC PTDS 19750
+(<a href="https://wg21.link/N4744">N4744</a>), the PTDS for version 2 of the C++
+Parallelism Technical Specification.
+
+NOTE: Paragraph references are relative to
+<a href="https://wg21.link/N4744">N4744</a> and do not take paragraph
+renumbering into account. In the places where this would be ambiguous,
+descriptions of the location are provided instead of paragraph numbers. 
 
 NOTE: The changes should be applied in order.
-
-NOTE: Paragraph references are relative to N4744 and do not take insertions or deletions into account.
 
 CA 7, 8, 10, US 5, 6, CH 8 {#ca7}
 ==============================
@@ -233,6 +237,7 @@ element initialized to the value of the element in `x` with index `i + j * V::si
 - <del>for the overload with a `simd` parameter `is_simd_v<V>` is `true`, for the overload with a `simd_mask` parameter `is_simd_mask_v<V>` is `true`.</del>
 - <ins>`is_simd_v<V>` is `true` and `simd_size_v<typename V::value_type, Abi>` is an integral multiple of `V::size()`, or</ins>
 - <ins>`is_simd_mask_v<V>` is `true` and `simd_size_v<typename V::simd_type::value_type, Abi>` is an integral multiple of `V::size()`.</ins>
+
 </blockquote>
 
 CH 2 {#ch2}
@@ -269,8 +274,8 @@ the target architecture does not support long double with either ABI tag. The im
 - <del>`compatible<T>` is an alias for __simd128 for all vectorizable T, except `long double`, and</del>
 - <del>`compatible<long double>` as an alias for scalar.</del>
 - <ins>`scalar` if `T` is the same type as `long double`, and</ins>
-- <ins>`__simd128` otherwise.</ins>
-— *end example* ]
+- <ins>`__simd128` otherwise.</ins> — *end example* ]
+
 </blockquote>
 
 US 1, 2 {#us1}
@@ -622,6 +627,7 @@ after conversion to `value_type`.
 - `From` is not an arithmetic type and is implicitly convertible to `value_type`, or
 - `From` is int, or
 - From is `unsigned int` and `value_type` is an unsigned integral type.
+
 </blockquote>
 
 Modify the definition of `simd_cast` in [**parallel.simd.casts**] as follows:
@@ -647,6 +653,7 @@ The return type is
 - `T` if `is_simd_v<T>` is `true`<del>, otherwise</del><ins>;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, Abi>` <del>is</del><ins>if</ins> `U` is <ins>the same type as</ins> `T`<del>, otherwise</del><ins>;</ins>
 - <ins>otherwise,&nbsp;</ins>`simd<T, simd_abi::fixed_size<simd<U, Abi>::size()>>`
+
 </blockquote>
 
 Modify the definition of `static_simd_cast` in [**parallel.simd.casts**] as follows:
