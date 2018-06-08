@@ -50,8 +50,8 @@ descriptions of the location are provided instead of paragraph numbers.
 
 NOTE: The changes should be applied in order.
 
-CA 7, CA 8, CA 10, US 5, US 6, CH 8 {#ca7-10us5-6ch8}
-=====================================================
+CA 15, CA 16, CA 17, US 11, US 12, CH 35 {#ca15-17us11-12ch35}
+==============================================================
 
 - Replace all occurrences of <span class="del">&#8714;</span> preceding a half-open range with <span class="ins">in the range of</span>.
 - Replace all remaining occurrences of <span class="del">&#8714;</span> with <span class="ins">&#x2208;</span>.
@@ -79,8 +79,8 @@ with:
 for all <span class="ins">selected indices <span class="math">i</span></span>
 </blockquote>
 
-US 8 {#us8}
-===========
+US 37 {#us37}
+=============
 
 Move paragraphs 4 and 5 of [**parallel.simd.overview**] into a new subsection after [**parallel.simd.overview**]:
 
@@ -106,7 +106,7 @@ Move paragraphs 4 and 5 of [**parallel.simd.mask.overview**] into a new subsecti
 </blockquote>
 </ins>
 
-US 14 {#us14}
+US 44 {#us44}
 =============
 
 Modify [**parallel.references**] paragraph 2 as follows:
@@ -146,7 +146,7 @@ with two arguments of type `simd<T, A1>` returning `simd<T, A1>` for every `A1` 
 *Returns:* <code><em>GENERALIZED_SUM</em>(binary_op, x.data[<em>i</em>], ...)</code> for all <span class="math">i</span> &#x2208; `[0, size())`<span class="ins"> (C++17 §29.2)</span>.
 </blockquote>
 
-US 16 {#us16}
+US 53 {#us53}
 =============
 
 Modify [**parallel.scope**] paragraph 3 as follows:
@@ -155,8 +155,8 @@ Modify [**parallel.scope**] paragraph 3 as follows:
 The goal of this Technical Specification is to build widespread existing practice for parallelism in the C++ <span class="ins">programming language</span><span class="del">standard algorithms library</span>. It gives advice on extensions to those vendors who wish to provide them.
 </blockquote>
 
-US 17 {#us17}
-=============
+US 3 {#us3}
+===========
 
 Insert a new paragraph after [**parallel.general.namespaces**] p1:
 
@@ -170,8 +170,8 @@ Each header described in this technical specification shall import the contents 
 ```
 </blockquote></ins>
 
-US 18 {#us18}
-=============
+US 7 {#us7}
+===========
 
 Modify [**parallel.alg.ops.synopsis**] as follows:
 
@@ -205,12 +205,12 @@ with:
 <span class="ins">`type_identity_t`</span>
 </blockquote>
 
-CA 3 {#ca3}
+CA 4 {#ca4}
 ===========
 
 Remove the column titled "Doc. No." from [**parallel.general.features**] Table 1.
 
-CA 4 {#ca4}
+CA 8 {#ca8}
 ===========
 
 Modify [**parallel.alg.reductions**] paragraph 3 as follows:
@@ -225,7 +225,7 @@ For example if the combiner is `plus<T>`, incrementing the accumulator would be 
 — *end note* ]
 </blockquote>
 
-CA 9 {#ca9}
+CA 5 {#ca5}
 ===========
 
 Modify [**parallel.exceptions.synopsis**] p2 as follows:
@@ -236,8 +236,8 @@ Modify [**parallel.exceptions.synopsis**] p2 as follows:
 </blockquote>
 <!-- This is a copy of the tzdb wording -->
 
-DE 1, DE 2 {#de1-2}
-===================
+DE 19, DE 48 {#de19de48}
+========================
 
 Modify the `array`-returning declarations of `split` in [**parallel.simd.synopsis**]:
 
@@ -281,8 +281,8 @@ element initialized to the value of the element in `x` with index `i + j * V::si
 
 </blockquote>
 
-CH 2 {#ch2}
-===========
+CH 21 {#ch21}
+=============
 
 Modify the synopsis for namespace `simd_abi` in [**parallel.simd.abi**] as follows:
 
@@ -298,8 +298,8 @@ namespace simd_abi {
 </code></pre>
 </blockquote>
 
-CH 3, CH 4 {#ch3-4}
-===================
+CH 22, CH 23 {#ch22-23}
+=======================
 
 Modify [**parallel.simd.abi**] paragraph 9 as follows:
 
@@ -319,8 +319,8 @@ the target architecture does not support long double with either ABI tag. The im
 
 </blockquote>
 
-US 1, US 2 {#us1-2}
-===================
+US 42, US 43 {#us42-43}
+=======================
 
 Modify [**parallel.simd.binary**] as follows:
 
@@ -440,8 +440,8 @@ friend simd_mask operator!=(const simd_mask&amp; <span class="ins">lhs</span>, c
 *Returns:* An object initialized with the results of <span class="del">the element-wise application of the indicated operator.</span><span class="ins">applying the indicated operator to `lhs` and `rhs` as a binary element-wise operation.</span>
 </blockquote>
 
-CH 11, CH 12 {#ch11-12}
-=======================
+CH 30, CH 33 {#ch30ch33}
+========================
 
 Add `noexcept` to the following functions in [**parallel.simd**]:
 
@@ -544,7 +544,7 @@ After [**parallel.simd.mask.reductions**] paragraph 13, paragraph 16, and paragr
 </blockquote>
 </ins>
 
-CH 13 {#ch13}
+CH 38 {#ch38}
 =============
 
 Modify [**parallel.simd.overview**] as follows:
@@ -561,8 +561,8 @@ public:
 </code></pre>
 </blockquote>
 
-US 13, US 15, CH 14, CH 15 {#us13-15ch14-15}
-============================================
+US 41, US 45, CH 46, CH 47 {#us41us45ch46-47}
+=============================================
 
 Modify the definition of `simd`'s `U&&` constructor in [**parallel.simd.ctor**] as follows:
 
@@ -634,7 +634,7 @@ The return type is<span class="ins">:</span>
 
 </blockquote>
 
-US 22 {#us22}
+US 50 {#us50}
 =============
 
 Modify [**parallel.simd.math**] paragraph 2 as follows:
@@ -644,7 +644,7 @@ Each function overload produced by the above rules applies the indicated `<cmath
 <span class="del">The results per element are not required to be bitwise</span><span class="ins">For the mathematical functions, the results per element only need to be approximately</span> equal to the application of the function which is overloaded for the element type.
 </blockquote>
 
-US 23 {#us23}
+US 51 {#us51}
 =============
 
 Modify [**parallel.simd.synopsis**] as follows:
