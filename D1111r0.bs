@@ -15,6 +15,19 @@ Toggle Diffs: yes
 No Abstract: yes
 </pre>
 
+<pre class='biblio'>
+{
+  "N4744": {
+    "authors": [ "ISO/IEC JTC1/SC22/WG21" ],
+    "href": "https://wg21.link/N4744",
+    "title": "Programming Languages — Technical Specification for C++ Extensions for Parallelism Version 2",
+    "status": "Proposed Draft Technical Specification",
+    "publisher": "ISO/IEC",
+    "deliveredBy": [ "https://wg21.link/N4744" ]
+  }
+}
+</pre>
+
 <style>
 pre.highlight:not(.idl), pre.highlight:not(.idl) * { background-color: transparent; }
 code.highlight:not(.idl), code.highlight:not(.idl) * { background-color: transparent; }
@@ -26,12 +39,11 @@ math { font-style: italic; overflow-wrap: normal; }
 code { overflow-wrap: normal; }
 </style>
 
-NOTE: All wording is relative to ISO/IEC PTDS 19750
-(<a href="https://wg21.link/N4744">N4744</a>), the PTDS for version 2 of the C++
-Parallelism Technical Specification.
+NOTE: All wording is relative to [[N4744]], the Proposed Draft Technical
+Specification for version 2 of the C++ Parallelism Technical Specification
+(ISO/IEC PTDS 19750).
 
-NOTE: Paragraph references are relative to
-<a href="https://wg21.link/N4744">N4744</a> and do not take paragraph
+NOTE: Paragraph references are relative to [[N4744]] and do not take paragraph
 renumbering into account. In the places where this would be ambiguous,
 descriptions of the location are provided instead of paragraph numbers. 
 
@@ -91,21 +103,21 @@ US 14 {#us14}
 Modify [**parallel.references**] Paragraph 2 as follows:
 
 <blockquote>
-ISO/IEC 14882:2017 is herein called the <dfn>C++ Standard</dfn>.
+ISO/IEC 14882:2017 is herein called the <i><b>C++ Standard</b></i>.
 <ins>References to clauses within the C++ Standard are written as "C++17 §3.2".</ins>
-The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <dfn>C++ Standard Library</dfn>.
-The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <dfn>C++ Standard Algorithms Library</dfn>.
+The library described in ISO/IEC 14882:2017 clauses 20-33 is herein called the <i><b>C++ Standard Library</i></b>.
+The C++ Standard Library components described in ISO/IEC 14882:2017 clauses 28, 29.8 and 23.10.10 are herein called the <i><b>C++ Standard Algorithms Library</i></b>.
 </blockquote>
 
 Replace all references to the C++ Standard with references in the style "C++17 §3.2":
 
-[**parallel.simd.ctor**] p7:
+Modify [**parallel.simd.ctor**] Paragraph 7 as follows:
 
 <blockquote>
 if both U and value_type are integral, the integer conversion rank <del>[conv.rank]</del><ins>(C++17 §7.15)</ins> of value_type is greater than the integer conversion rank of U.
 </blockquote>
 
-[**parallel.simd.ctor**] p11:
+Modify [**parallel.simd.ctor**] Paragraph 11 as follows:
 
 <blockquote>
 Vectorization-unsafe standard library functions may not be invoked by `gen` (<del>[algorithms.parallel.exec]</del><ins>C++17 §28.4.3</ins>).
