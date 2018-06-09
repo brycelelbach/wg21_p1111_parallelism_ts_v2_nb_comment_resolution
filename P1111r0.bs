@@ -53,12 +53,6 @@ NOTE: The changes should be applied in order.
 CA 15, CA 16, CA 17, US 11, US 12, CH 35 {#ca15-17us11-12ch35}
 ==============================================================
 
-- Replace all occurrences of <span class="del">&#8714;</span> preceding a half-open range with <span class="ins">in the range of</span>.
-- Replace all remaining occurrences of <span class="del">&#8714;</span> with <span class="ins">&#x2208;</span>.
-- Replace all occurrences of <span class="del">&#8469;<sub>0</sub></span> with <span class="ins">&#8469;</span>.
-- Replace all occurrences of <span class="del">-th</span> to <span class="ins"><sup>th</sup></span>.
-- Replace all occurrences of <code>i</code> and <code>j</code> (code font) with <span class="math">i</span> and <span class="math">j</span> (math font) respectively.
-
 Modify [**parallel.simd.whereexpr**] paragraph 12 as follows:
 <blockquote>
 If the template parameter <code>Flags</code> is <code>vector_aligned_tag</code>, <code>mem</code> shall point to storage aligned by <code>memory_alignment_v&lt;T, U&gt;</code>.
@@ -78,6 +72,16 @@ with:
 <blockquote>
 for all <span class="ins">selected indices <span class="math">i</span></span>
 </blockquote>
+
+Replace all occurrences of <span class="del">&#8714;</span> preceding a half-open range with <span class="ins">in the range of</span>.
+
+Replace all remaining occurrences of <span class="del">&#8714;</span> with <span class="ins">&#x2208;</span>.
+
+Replace all occurrences of <span class="del">&#8469;<sub>0</sub></span> with <span class="ins">&#8469;</span>.
+
+Replace all occurrences of <span class="del">-th</span> to <span class="ins"><sup>th</sup></span>.
+
+Replace all occurrences of <code>i</code> and <code>j</code> (code font) with <span class="math">i</span> and <span class="math">j</span> (math font) respectively.
 
 US 37 {#us37}
 =============
@@ -298,8 +302,8 @@ namespace simd_abi {
 </code></pre>
 </blockquote>
 
-CH 22, CH 23 {#ch22-23}
-=======================
+CH 23 {#ch23}
+=============
 
 Modify [**parallel.simd.abi**] paragraph 9 as follows:
 
