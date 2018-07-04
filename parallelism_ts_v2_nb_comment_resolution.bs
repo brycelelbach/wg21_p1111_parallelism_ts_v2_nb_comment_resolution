@@ -5,8 +5,8 @@ Revision: 0
 Status: P
 Group: WG21
 Audience: SG1, LEWG, LWG
-Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_proposed_resolution_to_nb_comments_on_the_parallelism_ts_v2/issues
-URL: http://wg21.link/D1111R0
+Issue Tracking: GitHub https://github.com/brycelelbach/wg21_p1111_parallelism_ts_v2_nb_comment_resolution/issues
+URL: http://wg21.link/P1111R0
 Editor: Bryce Adelstein Lelbach, NVIDIA, brycelelbach@gmail.com
 Editor: Matthias Kretz, m.kretz@gsi.de
 Date: 2018-06-04
