@@ -42,7 +42,7 @@ ul > li:before { content: "—"; text-indent: -5px; }
 
 NOTE: All wording is relative to [[N4744]], the Proposed Draft Technical
 Specification for version 2 of the C++ Parallelism Technical Specification
-(ISO/IEC PTDS 19750).
+(ISO/IEC PTDS 19570).
 
 NOTE: Paragraph references are relative to [[N4744]] and do not take paragraph
 renumbering into account. In the places where this would be ambiguous,
